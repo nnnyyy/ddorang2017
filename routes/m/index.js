@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
                     for( var i = 0 ; i < rows.length ; ++i) {
                         sex_avg.push({sex:rows[i].sex, avg:rows[i].avgscore });
                     }
-                    console.log(sex_avg);
+                    //console.log(sex_avg);
                     cb(null, 'next');
                 });
             },
@@ -31,7 +31,7 @@ router.get('/', function(req, res, next) {
                     for( var i = 0 ; i < rows.length ; ++i) {
                         top_avg.push({name:rows[i].name, avg:rows[i].avgscore });
                     }
-                    console.log(top_avg);
+                    //console.log(top_avg);
                     cb(null, 'next');
                 });
             },
@@ -97,8 +97,68 @@ router.get('/myinfo', function(req, res, next) {
     }
 });
 
+router.get('/ranking', function(req, res, next) {
+    console.log('!!!!');
+    var data = [];
+    var data_max = [];
+    var data_attend = [];
+    var avg = 0;
+
+    try {
+        //
+        async.waterfall([
+            function(cb) {
+                pool.query("select name, avg(score) avgscore from account ac, record rc where ac.id = rc.id and status > 0 group by ac.id order by avgscore desc", function(err, rows, ret ){
+
+                    if(err) {
+                        // Error 처리
+                    }
+
+                    for( var i = 0 ; i < rows.length ; ++i) {
+                        data.push({name:rows[i].name, avgscore:rows[i].avgscore });
+                    }
+                    cb(null,'next');
+                });
+            },
+            function(arg, cb) {
+                pool.query("select name, max(score) as score from account ac, record rc where ac.id=rc.id group by name order by max(score) desc", function(err, rows, ret ){
+
+                    if(err) {
+                        // Error 처리
+                    }
+
+                    for( var i = 0 ; i < rows.length ; ++i) {
+                        data_max.push({name:rows[i].name, score:rows[i].score });
+                    }
+                    cb(null,'next');
+                });
+            },
+            function(arg, cb) {
+
+                pool.query("select name, count(*) as cnt from (select ac.name as name, regdate from account ac, record rc where ac.id = rc.id group by ac.name, regdate) as temp group by name order by count(*) desc", function(err, rows, ret ){
+
+                    if(err) {
+                        // Error 처리
+                    }
+
+                    for(var i = 0 ; i < rows.length ; ++i) {
+                        data_attend.push({name: rows[i].name, cnt: rows[i].cnt});
+                    }
+
+                    cb(null, 'done');
+                });
+            }
+        ], function(err,ret) {
+            res.render('m/ranking', { data: data, data_max:data_max, data_attend:data_attend, session: req.session.user_id});
+        });
+    }
+    catch(err) {
+        res.render('m/ranking', { data:[],data_max:[], data_attend:[], session: req.session.user_id });
+    }
+});
+
 router.get('/logout', function(req,res,next){
-    console.log(req.session.user_id);
+    //console.log(req.session.user_id);
     req.session.destroy();
     res.redirect('back');
 });

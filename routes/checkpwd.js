@@ -9,7 +9,7 @@ router.post('/', function(req, res, next) {
     var id = req.body.user_id;
     var pwd = req.body.user_pwd;
     var return_url = req.body.return_url;
-    console.log('id: ' + id + ",pw:" + pwd);
+    //console.log('id: ' + id + ",pw:" + pwd);
     try {
         pool.query('CALL CheckPassword(?,?)',[id, pwd], function(err,rows,fields){
             if(err) {

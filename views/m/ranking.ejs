@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" charset="utf-8" />
+    <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+</head>
+
+<script>
+    $(document).ready(function(){
+        $('#av_rank_tbl').hide();
+        $('#max_rank_tbl').hide();
+        $('#attend_rank_tbl').hide();
+        $('#avg_rank').click(function(){
+            $('#av_rank_tbl').toggle();
+        })
+
+        $('#max_rank').click(function(){
+            $('#max_rank_tbl').toggle();
+        })
+
+        $('#attend_rank').click(function(){
+            $('#attend_rank_tbl').toggle();
+        })
+    })
+</script>
+
+<body>
+<%-  include header.ejs %>
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="main">
+    타이틀을 클릭하면 항목이 열립니다.
+    <div class="main_sub_title" id="avg_rank">평균 점수 랭킹</div>
+    <table class="sub_title_tbl" id="av_rank_tbl">
+        <tr style="height: 30px;">
+            <td>이름</td>
+            <td>평균 점수</td>
+        </tr>
+        <% for(var i = 0 ; i < data.length ; ++i) { %>
+        <tr>
+            <td><%= data[i].name %></td>
+            <td><%= data[i].avgscore %></td>
+        </tr>
+        <% } %>
+    </table>
+
+    <div class="main_sub_title" id="max_rank">최고점 랭킹</div>
+    <table class="sub_title_tbl" id="max_rank_tbl">
+        <tr style="height: 30px;">
+            <td>이름</td>
+            <td>최고 점수</td>
+        </tr>
+        <% for(var i = 0 ; i < data_max.length ; ++i) { %>
+        <tr>
+            <td><%= data_max[i].name %></td>
+            <td><%= data_max[i].score %></td>
+        </tr>
+        <% } %>
+    </table>
+
+    <div class="main_sub_title" id="attend_rank">출석 랭킹</div>
+    <table class="sub_title_tbl" id="attend_rank_tbl">
+        <tr style="height: 30px;">
+            <td>이름</td>
+            <td>출석 횟수</td>
+        </tr>
+        <% for(var i = 0 ; i < data_attend.length ; ++i) { %>
+        <tr>
+            <td><%= data_attend[i].name %></td>
+            <td><%= data_attend[i].cnt %></td>
+        </tr>
+        <% } %>
+    </table>
+</div>
+</body>
+
+</html>
