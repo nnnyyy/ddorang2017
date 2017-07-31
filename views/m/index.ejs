@@ -17,6 +17,10 @@
     <div class="ct-chart"></div>
     <div class="main_sub_title">동호회 평균</div>
     <table class="sub_title_tbl">
+        <tr style="height: 30px;">
+            <td>성별</td>
+            <td>평균 점수</td>
+        </tr>
         <% for(var i = 0 ; i < data.sex_avg.length ; ++i) { %>
         <tr>
             <td><%= (data.sex_avg[i].sex == 0) ? '남' : '여' %></td>
@@ -25,8 +29,12 @@
         <% } %>
     </table>
 
-    <div class="main_sub_title">에버지리 상위 랭커</div>
+    <div class="main_sub_title">에버리지 랭커</div>
     <table class="sub_title_tbl">
+        <tr style="height: 30px;">
+            <td>이름</td>
+            <td>점수</td>
+        </tr>
         <% for(var i = 0 ; i < data.top_avg.length ; ++i) { %>
         <tr>
             <td><%= data.top_avg[i].name %></td>

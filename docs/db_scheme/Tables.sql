@@ -1,3 +1,5 @@
+create database ddorang;
+
 use ddorang;
 
 create table account 

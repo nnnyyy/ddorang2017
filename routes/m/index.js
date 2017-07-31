@@ -1,15 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var mysql = require('mysql');
-var pool = mysql.createPool({
-    connectionLimit: 10,
-    host: 'localhost',
-    user: 'root',
-    password: '!Ss1980819',
-    database: 'ddorang'
-});
-
+var pool = require('../../mysql/_Mysql').init();
 var async = require('async');
 
 /* DB SP 사용 예
@@ -21,7 +13,6 @@ var async = require('async');
 
 /* GET home page for mobile. */
 router.get('/', function(req, res, next) {
-    req.session.user_id = 'nnnyyy';
     var sex_avg = [];
     var top_avg = [];
     try {
@@ -59,30 +50,57 @@ router.get('/', function(req, res, next) {
 
 router.get('/myinfo', function(req, res, next) {
     var data = [];
-    try {
-        pool.query("select id, name from account where status > 0", function(err, rows, ret ){
+    var avg = 0;
+    if(req.session.user_id) {
+        // 로그인 한 상태
+        try {
 
-            if(err) {
-                // Error 처리
-            }
+            async.waterfall([
+                function(cb) {
+                    pool.query("select ac.name, DATE_FORMAT(rc.regdate,'%Y-%m-%d') as regdate, rc.score, rc.place from account ac, record rc where ac.id = rc.id and ac.id = '"+ req.session.user_id +"' order by rc.regdate desc", function(err, rows, ret ){
 
-            for( var i = 0 ; i < rows.length ; ++i) {
-                data.push({id:rows[i].id, name:rows[i].name });
-            }
+                        if(err) {
+                            // Error 처리
+                        }
 
-            res.render('m/myinfo', { data:data, session: req.session.user_id });
-        });
+                        for( var i = 0 ; i < rows.length ; ++i) {
+                            data.push({name:rows[i].name, regdate:rows[i].regdate, score:rows[i].score, place:rows[i].place });
+                        }
+                        cb(null,'next');
+                    });
+                },
+                function(arg, cb) {
+
+                    pool.query("select avg(score) avg from record where id = '"+ req.session.user_id +"'", function(err, rows, ret ){
+
+                        if(err) {
+                            // Error 처리
+                        }
+
+                        if(rows.length) {
+                            avg = rows[0].avg;
+                        }
+
+                        cb(null, 'done');
+                    });
+                }
+            ], function(err,ret) {
+                res.render('m/myinfo', { data: data, avg:avg, session: req.session.user_id});
+            });
+        }
+        catch(err) {
+            res.render('m/myinfo', { data:data, avg:0, session: req.session.user_id });
+        }
     }
-    catch(err) {
-        res.render('m/myinfo', { data:data, session: req.session.user_id });
+    else {
+        res.render('m/myinfo', { data:data, avg:0, session: req.session.user_id });
     }
 });
 
 router.get('/logout', function(req,res,next){
     console.log(req.session.user_id);
     req.session.destroy();
-    res.clearCookie('ddorang');
-    res.send('Good');
+    res.redirect('back');
 });
 
 module.exports = router;

@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var index_mobile = require('./routes/m/index');
+var check_pwd = require('./routes/checkpwd');
 var users = require('./routes/users');
 var session = require('express-session');
 
@@ -32,6 +33,7 @@ app.use(session({
 app.use('/', index);
 app.use('/m', index_mobile);
 app.use('/users', users);
+app.use('/checkpwd', check_pwd);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
