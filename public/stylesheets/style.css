@@ -1,0 +1,57 @@
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+body {
+  margin: 0;
+}
+
+#main {
+  margin-top: 10px;
+  text-align: center;
+  transition: margin-left .5s;
+}
+
+#main .main_sub_title {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-size: 25px;
+}
+
+#main .sub_title_tbl {
+  border: 1px solid black;
+  width: 60%;
+  margin: auto;
+}
+
+#main .sub_title_tbl tr td{
+  width: 50%;
+  border: 1px solid black;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+header {
+  font-size: 30px;
+  margin: auto;
+  background-color: #830000;
+  text-align: center;
+  height: 210px;
+}
+
+.title_img {
+  width: 270px;
+  height: auto;
+  margin: auto;
+}
+
+.header_btn {
+  width: 120px;
+  height: auto;
+}
+
+#header_btns_tbl {
+  width: 60%;
+  margin: auto;
+}
