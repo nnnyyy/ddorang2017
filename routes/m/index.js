@@ -119,11 +119,11 @@ router.get('/myinfo', function(req, res, next) {
             });
         }
         catch(err) {
-            res.render('m/myinfo', { data:data, avg:0, session: req.session.user_id });
+            res.render('m/myinfo', { data:[], data_individual:[], avg:0, avg_individual:0, session: req.session.user_id });
         }
     }
     else {
-        res.render('m/myinfo', { data:data, avg:0, session: req.session.user_id });
+        res.render('m/myinfo', { data:[], data_individual:[], avg:0, avg_individual:0, session: req.session.user_id });
     }
 });
 
