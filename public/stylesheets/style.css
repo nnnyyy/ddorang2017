@@ -71,10 +71,12 @@ header {
 }
 
 .btnstyle1 {
-  font-size: 22px;
-  margin-left: 3px;
-  margin-right: 3px;
-
+  display: inline-block;
+  width: 40px;
+  height:35px;
+  font-size: 18px;
+  margin-left: 2px;
+  margin-right: 2px;
   background-color: #830000;
   color: #ffffff;
   border-radius: 5px;
