@@ -10,7 +10,7 @@
 <script>
     $(document).ready(function(){
         var score = 100;
-        $('.big_number').text(score);
+        $('#cur_score').text(score);
 
         $('#session_ok').hide();
         $('#no_session').hide();
@@ -26,13 +26,37 @@
             score += parseInt($(this).attr('val'));
             if(score < 0 ) score = 0;
             if(score > 300 ) score = 300;
-            $('.big_number').text(score);
+            $('#cur_score').text(score);
         })
 
+        $('#input_score').click(function(){
+            var curDate = $('#datepicker').datepicker({dateFormat: 'yy-mm-dd'}).val();
+            $.post("/insertscore", {user_id:'<%- session %>', regdate: curDate, score: score, type:2}, function(data) {
+                if( data.ret == -1 ) {
+                    $('#alert_message').html('입력에 실패 했습니다.');
+                }
+                else {
+                    location.reload();
+                }
+
+            });
+        })
+
+        var queryDate = new Date(); // Mon 이 0부터 시작함
         $('#datepicker').datepicker({
-            defaultDate:'2017-01-01',
-            dateFormat: 'yy-mm-dd'
+            dateFormat: 'yy-mm-dd',
+            prevText: '이전 달',
+            nextText: '다음 달',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            showMonthAfterYear: true,
+            yearSuffix: '년'
         });
+
+        $('#datepicker').datepicker('setDate', queryDate);
     });
 </script>
 
@@ -44,8 +68,9 @@
         로그인이 필요합니다.
     </div>
     <div id="session_ok">
-        <div><input type="text" id="datepicker"/></div>
-        <div class="big_number">0</div>
+        <div id="alert_message"></div>
+        <div id="datepicker" style="margin: auto; width:80%;"></div>
+        <div id ="cur_score" class="big_number">0</div>
         <div style="margin:auto;">
             <btn_num class="btnstyle1" val="-1">-1</btn_num>
             <btn_num class="btnstyle1" val="-10">-10</btn_num>
@@ -54,7 +79,7 @@
             <btn_num class="btnstyle1" val="+10">+10</btn_num>
             <btn_num class="btnstyle1" val="+100">+100</btn_num>
         </div>
-        <br><br><div>입력</div>
+        <br><div id="input_score" class="btn_submit">입력</div>
     </div>
 </div>
 </body>

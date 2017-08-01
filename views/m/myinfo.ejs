@@ -10,6 +10,20 @@
 
 <body>
 <script>
+
+    function showgraph(elemname, data){
+        new Chartist.Line(elemname, {
+            series: [
+                data
+            ]
+        }, {
+            fullWidth: true,
+            chartPadding: {
+                right: 40
+            }
+        });
+    }
+
     $(document).ready(function(){
         $('#loginform').submit(function(){
             if( $('#loginform #user_id').val() == '' || $('#loginform #user_pwd').val() == '' ) {
@@ -30,6 +44,18 @@
             return false;
         })
 
+        $('#league').hide();
+        $('#record_league').click(function(){
+            $('#league').toggle();
+            showgraph('.ct-chart', data);
+        })
+
+        $('#individual').hide();
+        $('#record_individual').click(function(){
+            $('#individual').toggle();
+            showgraph('.ct-chart-individual', data_individual);
+        })
+
         var data = [];
         <% for(var i = data.length-1 ; i >= 0  ; --i) { %>
             if(data.length < 10) {
@@ -37,16 +63,12 @@
             }
         <% } %>
 
-        new Chartist.Line('.ct-chart', {
-            series: [
-                data
-            ]
-        }, {
-            fullWidth: true,
-            chartPadding: {
-                right: 40
-            }
-        });
+        var data_individual = [];
+        <% for(var i = data_individual.length-1 ; i >= 0  ; --i) { %>
+        if(data_individual.length < 10) {
+            data_individual.push(<%- data_individual[i].score %>);
+        }
+        <% } %>
     });
 </script>
 <%-  include header.ejs %>
@@ -80,26 +102,54 @@
     <%}else {%>
     <div id="session_ok">
         <p><%=session%>님 안녕하세요. <a href="/m/logout">로그아웃</a></p>
+        타이틀을 누르면 상세항목이 보입니다.
     </div>
-    <% if(data.length == 0) {%>
-    <div>기록이 없습니다. 볼링장 ㄱㄱ싱?</div>
-    <%}else {%>
-    <p style="color:#830000; font-weight: bold;">총 에버리지 : <%= avg %>점</p>
-    <div>최근 게임 그래프</div>
-    <div class="ct-chart"></div>
-    <table style="width: 200px; margin:auto;">
-        <tr style="height: 30px;">
-            <td>날짜</td>
-            <td>점수</td>
-        </tr>
-        <% for(var i = 0 ; i < data.length ; ++i) { %>
-        <tr>
-            <td><%= data[i].regdate %></td>
-            <td><%= data[i].score %></td>
-        </tr>
+    <div class="main_sub_title" id="record_league">동호회 기록</div>
+    <div id="league">
+        <% if(data.length == 0) {%>
+        <div>기록이 없습니다. 볼링장 ㄱㄱ싱?</div>
+        <%}else {%>
+        <p style="color:#830000; font-weight: bold;">총 에버리지 : <%= avg %>점</p>
+        <div>최근 게임 그래프</div>
+        <div class="ct-chart"></div>
+        <table style="width: 200px; margin:auto;">
+            <tr style="height: 30px;">
+                <td>날짜</td>
+                <td>점수</td>
+            </tr>
+            <% for(var i = 0 ; i < data.length ; ++i) { %>
+            <tr>
+                <td><%= data[i].regdate %></td>
+                <td><%= data[i].score %></td>
+            </tr>
+            <% } %>
+        </table>
         <% } %>
-    </table>
-    <% } %>
+    </div>
+
+    <br>
+    <div class="main_sub_title" id="record_individual">개인 기록</div>
+    <div id="individual">
+        <% if(data_individual.length == 0) {%>
+        <div>기록이 없습니다. 볼링장 ㄱㄱ싱?</div>
+        <%}else {%>
+        <p style="color:#830000; font-weight: bold;">총 에버리지 : <%= avg_individual %>점</p>
+        <div>최근 게임 그래프</div>
+        <div class="ct-chart-individual"></div>
+        <table style="width: 200px; margin:auto;">
+            <tr style="height: 30px;">
+                <td>날짜</td>
+                <td>점수</td>
+            </tr>
+            <% for(var i = 0 ; i < data_individual.length ; ++i) { %>
+            <tr>
+                <td><%= data_individual[i].regdate %></td>
+                <td><%= data_individual[i].score %></td>
+            </tr>
+            <% } %>
+        </table>
+        <% } %>
+    </div>
     <%}%>
 </div>
 </body>

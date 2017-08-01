@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var index_mobile = require('./routes/m/index');
 var check_pwd = require('./routes/checkpwd');
+var insert_score = require('./routes/insertscore');
 var users = require('./routes/users');
 var session = require('express-session');
 
@@ -34,6 +35,7 @@ app.use('/', index);
 app.use('/m', index_mobile);
 app.use('/users', users);
 app.use('/checkpwd', check_pwd);
+app.use('/insertscore', insert_score);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

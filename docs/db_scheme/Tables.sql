@@ -29,3 +29,16 @@ create table record
 
 create index idx_record_id on record (id);
 create index idx_record_regdate on record (regdate);	
+
+create table record_individual
+(
+	sn bigint auto_increment,
+    id varchar(20), -- 사용자 id
+    regdate datetime default now(), -- 등록한 날짜
+    place int default 0, -- 장소 id
+    score int, -- 점수
+    primary key (sn)
+);
+
+create index idx_record_id on record_individual (id);
+create index idx_record_regdate on record_individual (regdate);	

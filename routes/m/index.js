@@ -50,7 +50,9 @@ router.get('/', function(req, res, next) {
 
 router.get('/myinfo', function(req, res, next) {
     var data = [];
+    var data_individual = [];
     var avg = 0;
+    var avg_individual = 0;
     if(req.session.user_id) {
         // 로그인 한 상태
         try {
@@ -70,6 +72,19 @@ router.get('/myinfo', function(req, res, next) {
                     });
                 },
                 function(arg, cb) {
+                    pool.query("select ac.name, DATE_FORMAT(rc.regdate,'%Y-%m-%d') as regdate, rc.score, rc.place from account ac, record_individual rc where ac.id = rc.id and ac.id = '"+ req.session.user_id +"' order by rc.regdate desc", function(err, rows, ret ){
+
+                        if(err) {
+                            // Error 처리
+                        }
+
+                        for( var i = 0 ; i < rows.length ; ++i) {
+                            data_individual.push({name:rows[i].name, regdate:rows[i].regdate, score:rows[i].score, place:rows[i].place });
+                        }
+                        cb(null,'next');
+                    });
+                },
+                function(arg, cb) {
 
                     pool.query("select avg(score) avg from record where id = '"+ req.session.user_id +"'", function(err, rows, ret ){
 
@@ -81,11 +96,26 @@ router.get('/myinfo', function(req, res, next) {
                             avg = rows[0].avg;
                         }
 
+                        cb(null, 'next');
+                    });
+                },
+                function(arg, cb) {
+
+                    pool.query("select avg(score) avg from record_individual where id = '"+ req.session.user_id +"'", function(err, rows, ret ){
+
+                        if(err) {
+                            // Error 처리
+                        }
+
+                        if(rows.length) {
+                            avg_individual = rows[0].avg;
+                        }
+
                         cb(null, 'done');
                     });
                 }
             ], function(err,ret) {
-                res.render('m/myinfo', { data: data, avg:avg, session: req.session.user_id});
+                res.render('m/myinfo', { data: data, data_individual:data_individual, avg:avg, avg_individual:avg_individual, session: req.session.user_id});
             });
         }
         catch(err) {
