@@ -10,7 +10,7 @@ DBMan.init = function() {
         connectionLimit: 10,
         host: 'localhost',
         user: 'root',
-        password: '!Ss1980819',
+        password: 's1980819',
         database: 'ddorang'
     });
 
