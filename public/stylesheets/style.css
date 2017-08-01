@@ -64,3 +64,21 @@ header {
 #alert_message {
   color: red;
 }
+
+.big_number {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.btnstyle1 {
+  font-size: 22px;
+  margin-left: 3px;
+  margin-right: 3px;
+
+  background-color: #830000;
+  color: #ffffff;
+  border-radius: 5px;
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+}

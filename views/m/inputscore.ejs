@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" charset="utf-8" />
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css"/>
+</head>
+<script>
+    $(document).ready(function(){
+        var score = 100;
+        $('.big_number').text(score);
+
+        $('#session_ok').hide();
+        $('#no_session').hide();
+        <% if(!session) {%>
+            $('#session_ok').hide();
+            $('#no_session').show();
+        <%}else {%>
+        $('#session_ok').show();
+        $('#no_session').hide();
+        <% } %>
+
+        $('.btnstyle1').click(function(){
+            score += parseInt($(this).attr('val'));
+            if(score < 0 ) score = 0;
+            if(score > 300 ) score = 300;
+            $('.big_number').text(score);
+        })
+
+        $('#datepicker').datepicker({
+            defaultDate:'2017-01-01',
+            dateFormat: 'yy-mm-dd'
+        });
+    });
+</script>
+
+<body>
+<%-  include header.ejs %>
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="main">
+    <div id="no_session">
+        로그인이 필요합니다.
+    </div>
+    <div id="session_ok">
+        <div><input type="text" id="datepicker"/></div>
+        <div class="big_number">0</div>
+        <btn_num class="btnstyle1" val="-1">-1</btn_num>
+        <btn_num class="btnstyle1" val="-10">-10</btn_num>
+        <btn_num class="btnstyle1" val="-100">-100</btn_num><br><br>
+        <btn_num class="btnstyle1" val="+1">+1</btn_num>
+        <btn_num class="btnstyle1" val="+10">+10</btn_num>
+        <btn_num class="btnstyle1" val="+100">+100</btn_num>
+        <br><br><div>입력</div>
+    </div>
+</div>
+</body>
+</html>
