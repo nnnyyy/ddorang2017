@@ -34,9 +34,41 @@
             $.post("/insertscore", {user_id:'<%- session %>', regdate: curDate, score: score, type:2}, function(data) {
                 if( data.ret == -1 ) {
                     $('#alert_message').html('입력에 실패 했습니다.');
+                    setTimeout(function(){
+                        $('#alert_message').html('');
+                    }, 2000);
                 }
                 else {
-                    location.reload();
+                    $('#alert_message').html('입력 성공!');
+                    setTimeout(function(){
+                        $('#alert_message').html('');
+                    }, 2000);
+
+                    $.post("/insertscore/loadscore", {user_id:'<%- session %>'}, function(data) {
+                        if(data.ret == -1) {
+                            $('#alert_message').html('데이터 로딩에 실패 했습니다.');
+                            setTimeout(function(){
+                                $('#alert_message').html('');
+                            }, 2000);
+                        }
+                        else {
+                            $('#record_list').html('');
+                            // 리스트 갱신
+                            var html = '<table style="width: 200px; margin:auto;">';
+                            html += '<tr style="height: 30px;">';
+                            html += '<td>날짜</td>';
+                            html += '<td>점수</td>';
+                            html += '</tr>';
+                            for(var i = 0 ; i < data.list.length ; ++i) {
+                                html += '<tr>';
+                                html += '<td>' + data.list[i].regdate + '</td>';
+                                html += '<td>' + data.list[i].score + '</td>';
+                                html += '</tr>';
+                            }
+                            html += '</table>';
+                            $('#record_list').html(html);
+                        }
+                    })
                 }
 
             });
@@ -68,6 +100,7 @@
         로그인이 필요합니다.
     </div>
     <div id="session_ok">
+        <div><p>이곳에는 개인 기록만 저장할 수 있습니다</p></div>
         <div id="alert_message"></div>
         <div id="datepicker" style="margin: auto; width:80%;"></div>
         <div id ="cur_score" class="big_number">0</div>
@@ -80,6 +113,10 @@
             <btn_num class="btnstyle1" val="+100">+100</btn_num>
         </div>
         <br><div id="input_score" class="btn_submit">입력</div>
+
+        <div>기록 확인(최신순)</div>
+        <div id="record_list">
+        </div>
     </div>
 </div>
 </body>
