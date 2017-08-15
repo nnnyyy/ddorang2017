@@ -1,14 +1,13 @@
 <header>
     <img class="title_img" src="/images/title_img.png"/><br/>
-    <table id="header_btns_tbl">
-        <tr>
-            <td><a href="/m"><img class="header_btn" src="/images/btn_main.png"/></a></td>
-            <td><a href="/m/myinfo"><img class="header_btn" src="/images/btn_record.png"/></a></td>
-        </tr>
-        <tr>
-            <td><a href="/m/ranking"><img class="header_btn" src="/images/btn_ranking.png"/></a></td>
-            <td><a href="/m/input_score" style="text-decoration: none"><menu_item style="font-size: 22px; color: white; vertical-align: top;">Input</menu_item></a></td>
-        </tr>
-    </table>
+    <div id="header_top_menubar">
+        <a href="/m"><menu_item>홈</menu_item></a> |
+        <a href="/m/myinfo"><menu_item>내기록</menu_item></a> |
+        <a href="/m/ranking"><menu_item>랭킹</menu_item></a> |
+        <a href="/m/input_score"><menu_item>점수입력</menu_item></a>
+        <%if(session) {%>
+            | <a href="/m/logout"><menu_item>로그아웃</menu_item></a>
+        <%}%>
+    </div>
 </header>
 <!-- Use any element to open the sidenav -->

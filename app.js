@@ -35,7 +35,7 @@ app.use('/', index);
 app.use('/m', index_mobile);
 app.use('/users', users);
 app.use('/checkpwd', check_pwd);
-app.use('/insertscore', insert_score);
+app.use('/proc_async_DBCall', insert_score);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

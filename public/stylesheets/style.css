@@ -3,6 +3,10 @@ body {
   margin: 0;
 }
 
+a {
+  text-decoration: none;
+}
+
 table,tr,td {
   border:0px solid black;
   border-spacing: 0px 0px;
@@ -37,12 +41,26 @@ table,tr,td {
   .sidenav a {font-size: 18px;}
 }
 
+#header_top_menubar {
+  color:white;
+  font-size: 15px;
+}
+
+#header_top_menubar menu_item {
+  font-size: 17px;
+  color: white;
+}
+
 header {
   font-size: 30px;
   margin: auto;
-  background-color: #830000;
+  background-color: #aaaaaa;
   text-align: center;
-  height: 210px;
+  height: 152px;
+}
+
+footer {
+  margin-bottom: 10px;
 }
 
 .title_img {
