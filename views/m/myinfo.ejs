@@ -44,15 +44,14 @@
             return false;
         })
 
-        $('#league').hide();
-        $('#record_league').click(function(){
-            $('#league').toggle();
+
+        $('#btn_league').click(function(){
+            $('#content').html($('#league').html());
             showgraph('.ct-chart', data);
         })
 
-        $('#individual').hide();
-        $('#record_individual').click(function(){
-            $('#individual').toggle();
+        $('#btn_individual').click(function(){
+            $('#content').html($('#individual').html());
             showgraph('.ct-chart-individual', data_individual);
         })
 
@@ -69,6 +68,11 @@
             data_individual.push(<%- data_individual[i].score %>);
         }
         <% } %>
+
+        $('#league').hide();
+        $('#individual').hide();
+        $('#content').html($('#league').html());
+        showgraph('.ct-chart', data);
     });
 </script>
 <%-  include header.ejs %>
@@ -76,35 +80,14 @@
 <div id="main">
     <% if(!session) {%>
     <div id="no_session">
-        <p>개인기록은 로그인 후 확인 가능</p>
-        <form id="loginform">
-            <div>
-                <table style="width:250px; margin:auto;" id="myinfo_tbl">
-                    <tr>
-                        <td style="width: 100px;">웨보아이디</td>
-                        <td style="width: 150px;"><input type="text" id="user_id" name="user_id" style="width: 140px;"/></td>
-                    </tr>
-                    <tr>
-                        <td>비밀번호</td>
-                        <td><input type="password" id="user_pwd" name="user_pwd" style="width: 140px;"/></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <input style="width: 100%;height: 40px;" type="submit" value="로그인"/>
-                        </td>
-                    </tr>
-                </table>
-                <input type="hidden" value="/m/myinfo" name="return_url"/>
-            </div>
-        </form>
-        <div id="alert_message"></div>
+        <p><a href="/m/login">로그인 하러 가기</a></p>
     </div>
     <%}else {%>
-    <div id="session_ok">
-        <p><%=session%>님 안녕하세요. <a href="/m/logout">로그아웃</a></p>
-        타이틀을 누르면 상세항목이 보입니다.
+    <div id="myinfo_menubar">
+        <a id="btn_league">동호회 기록</a> |
+        <a id="btn_individual">개인 기록</a>
     </div>
-    <div class="main_sub_title" id="record_league">동호회 기록</div>
+    <div id="content"></div>
     <div id="league">
         <% if(data.length == 0) {%>
         <div>기록이 없습니다. 볼링장 ㄱㄱ싱?</div>
@@ -128,7 +111,6 @@
     </div>
 
     <br>
-    <div class="main_sub_title" id="record_individual">개인 기록</div>
     <div id="individual">
         <% if(data_individual.length == 0) {%>
         <div>기록이 없습니다. 볼링장 ㄱㄱ싱?</div>

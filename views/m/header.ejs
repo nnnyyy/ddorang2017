@@ -7,6 +7,8 @@
         <a href="/m/input_score"><menu_item>점수입력</menu_item></a>
         <%if(session) {%>
             | <a href="/m/logout"><menu_item>로그아웃</menu_item></a>
+        <%}else {%>
+            | <a href="/m/login"><menu_item>로그인</menu_item></a>
         <%}%>
     </div>
 </header>

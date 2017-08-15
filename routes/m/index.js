@@ -192,6 +192,10 @@ router.get('/input_score', function(req,res,next){
     res.render('m/inputscore', { data:[], session: req.session.user_id });
 });
 
+router.get('/login', function(req,res,next){
+    res.render('m/login', { data:[], session: req.session.user_id });
+});
+
 router.get('/logout', function(req,res,next){
     //console.log(req.session.user_id);
     req.session.destroy();

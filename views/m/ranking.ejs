@@ -10,20 +10,23 @@
 
 <script>
     $(document).ready(function(){
-        $('#av_rank_tbl').hide();
-        $('#max_rank_tbl').hide();
-        $('#attend_rank_tbl').hide();
-        $('#avg_rank').click(function(){
-            $('#av_rank_tbl').toggle();
+        $('#av_rank').hide();
+        $('#max_rank').hide();
+        $('#att_rank').hide();
+        $('#btn_avg').click(function(){
+            $('#content').html($('#av_rank').html());
         })
 
-        $('#max_rank').click(function(){
-            $('#max_rank_tbl').toggle();
+        $('#btn_max').click(function(){
+            $('#content').html($('#max_rank').html());
         })
 
-        $('#attend_rank').click(function(){
-            $('#attend_rank_tbl').toggle();
+        $('#btn_attend').click(function(){
+            $('#content').html($('#att_rank').html());
+
         })
+
+        $('#content').html($('#av_rank').html());
     })
 </script>
 
@@ -31,48 +34,91 @@
 <%-  include header.ejs %>
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
 <div id="main">
-    타이틀을 클릭하면 항목이 열립니다.
-    <div class="main_sub_title" id="avg_rank">평균 점수 랭킹</div>
-    <table class="sub_title_tbl" id="av_rank_tbl">
-        <tr style="height: 30px;">
-            <td>이름</td>
-            <td>평균 점수</td>
-        </tr>
-        <% for(var i = 0 ; i < data.length ; ++i) { %>
-        <tr>
-            <td><%= data[i].name %></td>
-            <td><%= data[i].avgscore %></td>
-        </tr>
-        <% } %>
-    </table>
+    <div id="ranking_menubar" style="margin-bottom: 10px;">
+        <a id="btn_avg">동호회 기록</a> |
+        <a id="btn_max">개인 기록</a> |
+        <a id="btn_attend">출석 기록</a>
+    </div>
+    <div id="content">
 
-    <div class="main_sub_title" id="max_rank">최고점 랭킹</div>
-    <table class="sub_title_tbl" id="max_rank_tbl">
-        <tr style="height: 30px;">
-            <td>이름</td>
-            <td>최고 점수</td>
-        </tr>
-        <% for(var i = 0 ; i < data_max.length ; ++i) { %>
-        <tr>
-            <td><%= data_max[i].name %></td>
-            <td><%= data_max[i].score %></td>
-        </tr>
-        <% } %>
-    </table>
+    </div>
+    <div id="av_rank">
+        <table class="type08">
+            <thead>
+                <tr style="height: 30px;">
+                    <th>순위</th>
+                    <th>이름</th>
+                    <th>평균 점수</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% var rank = 1;
+            for(var i = 0 ; i < data.length ; ++i) { %>
+            <tr>
+                <th><%= rank %></th>
+                <td><%= data[i].name %></td>
+                <td><%= data[i].avgscore %></td>
+            </tr>
+            <% rank++;
+            } %>
+            </tbody>
+        </table>
+    </div>
+    <div id="max_rank">
+        <table class="type08">
+            <thead>
+            <tr style="height: 30px;">
+                <th>순위</th>
+                <th>이름</th>
+                <th>최고 점수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% var rank = 1;
+            for(var i = 0 ; i < data_max.length ; ++i) { %>
+            <tr>
+                <th><%= rank %></th>
+                <td><%= data_max[i].name %></td>
+                <td><%= data_max[i].score %></td>
+            </tr>
+            <%  rank++;
+            } %>
+            </tbody>
+        </table>
+    </div>
+    <div id="att_rank">
+        <table class="type08">
+            <thead>
+                <tr style="height: 30px;">
+                    <th>순위</th>
+                    <th>이름</th>
+                    <th>출석 횟수</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% var rank = 0; prev_val = 0; stack = 0;
+                for(var i = 0 ; i < data_attend.length ; ++i) {
+                    if( prev_val == data_attend[i].cnt ) {
+                        stack++;
+                    }
+                    else {
+                        rank += stack;
+                        stack = 0;
+                        rank++;
+                    }
+                %>
+                <tr>
+                    <th><%= rank %></th>
+                    <td><%= data_attend[i].name %></td>
+                    <td><%= data_attend[i].cnt %></td>
+                </tr>
+                <%
+                    prev_val = data_attend[i].cnt;
+                } %>
+            </tbody>
+        </table>
+    </div>
 
-    <div class="main_sub_title" id="attend_rank">출석 랭킹</div>
-    <table class="sub_title_tbl" id="attend_rank_tbl">
-        <tr style="height: 30px;">
-            <td>이름</td>
-            <td>출석 횟수</td>
-        </tr>
-        <% for(var i = 0 ; i < data_attend.length ; ++i) { %>
-        <tr>
-            <td><%= data_attend[i].name %></td>
-            <td><%= data_attend[i].cnt %></td>
-        </tr>
-        <% } %>
-    </table>
 </div>
 <%-  include footer.ejs %>
 </body>

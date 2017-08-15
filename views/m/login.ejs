@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" charset="utf-8" />
+    <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css"/>
+</head>
+
+
+
+<body>
+<script>
+    $(document).ready(function(){
+        $('#loginform').submit(function(){
+            if( $('#loginform #user_id').val() == '' || $('#loginform #user_pwd').val() == '' ) {
+                alert('아이디 또는 비밀번호를 입력 해 주세요');
+                return false;
+            }
+
+            $.post("/checkpwd", {user_id:$('#loginform #user_id').val(), user_pwd:$('#loginform #user_pwd').val(), return_url:'/m/myinfo'}, function(data) {
+                if( data.ret == -1 ) {
+                    $('#alert_message').html('아이디 또는 비번이 잘못 되었습니다.');
+                }
+                else {
+                    location.href = document.referrer;
+                }
+
+            });
+
+            return false;
+        })
+    })
+</script>
+<%-  include header.ejs %>
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<% if( !session ) { %>
+<form id="loginform">
+    <div>
+        <table style="width:250px; margin:auto;" id="myinfo_tbl">
+            <tr>
+                <td style="width: 100px;">웨보아이디</td>
+                <td style="width: 150px;"><input type="text" id="user_id" name="user_id" style="width: 140px;"/></td>
+            </tr>
+            <tr>
+                <td>비밀번호</td>
+                <td><input type="password" id="user_pwd" name="user_pwd" style="width: 140px;"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input style="width: 100%;height: 40px;" type="submit" value="로그인"/>
+                </td>
+            </tr>
+        </table>
+        <input type="hidden"  name="return_url"/>
+    </div>
+</form>
+<div id="alert_message"></div>
+<% }%>
+
+<%-  include footer.ejs %>
+</body>
+</html>
