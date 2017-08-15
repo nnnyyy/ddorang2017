@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" charset="utf-8" />
     <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/str_style.css"/>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
     <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
 </head>
@@ -92,10 +93,21 @@
         <% if(data.length == 0) {%>
         <div>기록이 없습니다. 볼링장 ㄱㄱ싱?</div>
         <%}else {%>
-        <p style="color:#830000; font-weight: bold;">총 에버리지 : <%= avg %>점</p>
-        <div class="main_sub_title">최근 게임 그래프</div>
+        <table class="type08">
+            <thead>
+            <tr>
+                <th>평균점수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><%= avg %></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="demo-1"><h2>최근 게임 그래프</h2></div>
         <div class="ct-chart"></div>
-        <div class="main_sub_title">최근 게임 기록표</div>
+        <div class="demo-1"><h2>최근 게임 기록표</h2></div>
         <table  class="type08">
             <thead>
             <tr style="height: 30px;">
@@ -121,9 +133,9 @@
         <div>기록이 없습니다. 볼링장 ㄱㄱ싱?</div>
         <%}else {%>
         <p style="color:#830000; font-weight: bold;">총 에버리지 : <%= avg_individual %>점</p>
-        <div class="main_sub_title">최근 게임 그래프</div>
+        <div class="demo-1"><h2>최근 게임 그래프</h2></div>
         <div class="ct-chart-individual"></div>
-        <div class="main_sub_title">최근 게임 기록표</div>
+        <div class="demo-1"><h2>최근 게임 기록표</h2></div>
         <table class="type08">
             <thead>
             <tr style="height: 30px;">
