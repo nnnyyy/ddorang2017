@@ -21,8 +21,8 @@ table,tr,td {
 
 #main .main_sub_title {
   margin-top: 8px;
-  margin-bottom: 8px;
-  font-size: 25px;
+  margin-bottom: 4px;
+  font-size: 20px;
 }
 
 #main .sub_title_tbl {
@@ -149,4 +149,8 @@ table.type08 td {
   vertical-align: top;
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
+}
+
+table.type08 .even {
+  background: #f7f7f7;
 }

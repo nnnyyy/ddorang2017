@@ -93,19 +93,24 @@
         <div>기록이 없습니다. 볼링장 ㄱㄱ싱?</div>
         <%}else {%>
         <p style="color:#830000; font-weight: bold;">총 에버리지 : <%= avg %>점</p>
-        <div>최근 게임 그래프</div>
+        <div class="main_sub_title">최근 게임 그래프</div>
         <div class="ct-chart"></div>
-        <table style="width: 200px; margin:auto;">
+        <div class="main_sub_title">최근 게임 기록표</div>
+        <table  class="type08">
+            <thead>
             <tr style="height: 30px;">
-                <td>날짜</td>
-                <td>점수</td>
+                <th>날짜</th>
+                <th>점수</th>
             </tr>
+            </thead>
+            <tbody>
             <% for(var i = 0 ; i < data.length ; ++i) { %>
             <tr>
                 <td><%= data[i].regdate %></td>
                 <td><%= data[i].score %></td>
             </tr>
             <% } %>
+            </tbody>
         </table>
         <% } %>
     </div>
@@ -116,19 +121,24 @@
         <div>기록이 없습니다. 볼링장 ㄱㄱ싱?</div>
         <%}else {%>
         <p style="color:#830000; font-weight: bold;">총 에버리지 : <%= avg_individual %>점</p>
-        <div>최근 게임 그래프</div>
+        <div class="main_sub_title">최근 게임 그래프</div>
         <div class="ct-chart-individual"></div>
-        <table style="width: 200px; margin:auto;">
+        <div class="main_sub_title">최근 게임 기록표</div>
+        <table class="type08">
+            <thead>
             <tr style="height: 30px;">
-                <td>날짜</td>
-                <td>점수</td>
+                <th>날짜</th>
+                <th>점수</th>
             </tr>
+            </thead>
+            <tbody>
             <% for(var i = 0 ; i < data_individual.length ; ++i) { %>
             <tr>
                 <td><%= data_individual[i].regdate %></td>
                 <td><%= data_individual[i].score %></td>
             </tr>
             <% } %>
+            </tbody>
         </table>
         <% } %>
     </div>

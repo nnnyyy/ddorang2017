@@ -56,8 +56,8 @@
             for(var i = 0 ; i < data.length ; ++i) { %>
             <tr>
                 <th><%= rank %></th>
-                <td><%= data[i].name %></td>
-                <td><%= data[i].avgscore %></td>
+                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= data[i].name %></td>
+                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= data[i].avgscore %></td>
             </tr>
             <% rank++;
             } %>
@@ -78,8 +78,8 @@
             for(var i = 0 ; i < data_max.length ; ++i) { %>
             <tr>
                 <th><%= rank %></th>
-                <td><%= data_max[i].name %></td>
-                <td><%= data_max[i].score %></td>
+                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= data_max[i].name %></td>
+                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= data_max[i].score %></td>
             </tr>
             <%  rank++;
             } %>
@@ -109,8 +109,8 @@
                 %>
                 <tr>
                     <th><%= rank %></th>
-                    <td><%= data_attend[i].name %></td>
-                    <td><%= data_attend[i].cnt %></td>
+                    <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= data_attend[i].name %></td>
+                    <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= data_attend[i].cnt %></td>
                 </tr>
                 <%
                     prev_val = data_attend[i].cnt;
