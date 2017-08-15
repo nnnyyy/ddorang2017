@@ -31,7 +31,7 @@
 
         $('#input_score').click(function(){
             var curDate = $('#datepicker').datepicker({dateFormat: 'yy-mm-dd'}).val();
-            $.post("/insertscore", {user_id:'<%- session %>', regdate: curDate, score: score, type:2}, function(data) {
+            $.post("/proc_async_DBCall/insertscore", {user_id:'<%- session %>', regdate: curDate, score: score, type:2}, function(data) {
                 if( data.ret == -1 ) {
                     $('#alert_message').html('입력에 실패 했습니다.');
                     setTimeout(function(){
@@ -44,7 +44,7 @@
                         $('#alert_message').html('');
                     }, 2000);
 
-                    $.post("/insertscore/loadscore", {user_id:'<%- session %>'}, function(data) {
+                    $.post("/proc_async_DBCall/loadscore", {user_id:'<%- session %>'}, function(data) {
                         if(data.ret == -1) {
                             $('#alert_message').html('데이터 로딩에 실패 했습니다.');
                             setTimeout(function(){
@@ -87,6 +87,32 @@
             showMonthAfterYear: true,
             yearSuffix: '년'
         });
+
+        $.post("/proc_async_DBCall/loadscore", {user_id:'<%- session %>'}, function(data) {
+            if(data.ret == -1) {
+                $('#alert_message').html('데이터 로딩에 실패 했습니다.');
+                setTimeout(function(){
+                    $('#alert_message').html('');
+                }, 2000);
+            }
+            else {
+                $('#record_list').html('');
+                // 리스트 갱신
+                var html = '<table style="width: 200px; margin:auto;">';
+                html += '<tr style="height: 30px;">';
+                html += '<td>날짜</td>';
+                html += '<td>점수</td>';
+                html += '</tr>';
+                for(var i = 0 ; i < data.list.length ; ++i) {
+                    html += '<tr>';
+                    html += '<td>' + data.list[i].regdate + '</td>';
+                    html += '<td>' + data.list[i].score + '</td>';
+                    html += '</tr>';
+                }
+                html += '</table>';
+                $('#record_list').html(html);
+            }
+        })
 
         $('#datepicker').datepicker('setDate', queryDate);
     });

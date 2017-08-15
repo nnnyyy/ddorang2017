@@ -8,7 +8,7 @@ var DBMan = {}
 DBMan.init = function() {
     _pool = mysql.createPool({
         connectionLimit: 10,
-        host: 'localhost',
+        host: '52.79.205.198',
         user: 'root',
         password: 's1980819',
         database: 'ddorang'

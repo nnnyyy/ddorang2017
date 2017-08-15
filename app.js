@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var index_mobile = require('./routes/m/index');
 var check_pwd = require('./routes/checkpwd');
-var insert_score = require('./routes/insertscore');
+var insert_score = require('./routes/proc_async_DBCall');
 var users = require('./routes/users');
 var session = require('express-session');
 

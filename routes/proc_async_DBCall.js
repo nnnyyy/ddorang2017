@@ -5,7 +5,7 @@ var pool = require('../mysql/_Mysql').init();
 var async = require('async');
 
 /* GET home page. */
-router.post('/', function(req, res, next) {
+router.post('/insertscore', function(req, res, next) {
     var id = req.body.user_id;
     var reg_date = req.body.regdate;
     var score = req.body.score;
