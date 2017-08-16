@@ -18,7 +18,9 @@ router.get('/', function(req, res, next) {
             database.cb_ranking_maximum,
 
             function(pool, data, cb) {
-                data['rank_maximum'] = data['rank_maximum'].slice(0, 5);
+                rank_maximum = data['rank_maximum'];
+                data['score_max'] = rank_maximum[0].score;
+                data['rank_maximum'] = rank_maximum.slice(0, 5);
                 cb(null, data);
             }
         ], function(err, ret) {
