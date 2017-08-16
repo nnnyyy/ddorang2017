@@ -68,7 +68,7 @@ exports.cb_individual_records = function (req, pool, data, next_callback) {
     sql_query = "SELECT ac.name, DATE_FORMAT(rc.regdate,'%Y-%m-%d') AS regdate, rc.score, rc.place " +
         "FROM account ac, record_individual rc " +
         "WHERE ac.id = rc.id AND ac.id = '" + req.session.user_id + "' " +
-        "ORDER BY rc.regdate DESC ";
+        "ORDER BY rc.regdate DESC, sn";
     pool.query(sql_query, function (err, rows, ret) {
         if (err) {
             // Error 처리
