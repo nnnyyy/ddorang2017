@@ -55,9 +55,9 @@ router.get('/myinfo', function(req, res, next) {
                 },
 
                 database.cb_club_records,
-                database.db_individual_records,
-                database.db_club_average,
-                database.db_individual_average,
+                database.cb_individual_records,
+                database.cb_club_average,
+                database.cb_individual_average,
 
                 function(req, pool, data, cb) {
                     cb(null, data);

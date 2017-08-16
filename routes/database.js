@@ -88,7 +88,7 @@ exports.cb_club_records = function (req, pool, data, next_callback) {
     });
 };
 
-exports.db_individual_records = function (req, pool, data, next_callback) {
+exports.cb_individual_records = function (req, pool, data, next_callback) {
     sql_query = get_query_individual_record(req.session.user_id);
     pool.query(sql_query, function (err, rows, ret) {
         if (err) {
@@ -110,7 +110,7 @@ exports.db_individual_records = function (req, pool, data, next_callback) {
     });
 };
 
-exports.db_club_average = function (req, pool, data, next_callback) {
+exports.cb_club_average = function (req, pool, data, next_callback) {
     sql_query = get_query_club_average(req.session.user_id);
     pool.query(sql_query, function (err, rows, ret) {
         if (err) {
@@ -126,7 +126,7 @@ exports.db_club_average = function (req, pool, data, next_callback) {
 };
 
 
-exports.db_individual_average = function (req, pool, data, next_callback) {
+exports.cb_individual_average = function (req, pool, data, next_callback) {
     sql_query = get_query_individual_average(req.session.user_id);
     pool.query(sql_query, function (err, rows, ret) {
         if (err) {
