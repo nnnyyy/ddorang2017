@@ -14,6 +14,7 @@ router.get('/', function(req, res, next) {
             },
 
             database.cb_sex_avg,
+            database.cb_total_avg,
             database.cb_top_avg,
             database.cb_ranking_maximum,
 
