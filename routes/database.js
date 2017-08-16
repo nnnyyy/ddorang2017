@@ -1,27 +1,15 @@
 
-function get_sex_avg_list(rows) {
-    sex_avg = [];
-    for (var i = 0; i < rows.length; ++i) {
-        sex_avg.push({ sex: rows[i].sex, avg: rows[i].avgscore });
-    }
-    return sex_avg;
-}
-
-function get_top_avg_list(rows) {
-    top_avg = [];
-    for (var i = 0; i < rows.length; ++i) {
-        top_avg.push({ name: rows[i].name, avg: rows[i].avgscore });
-    }
-    return top_avg;
-}
-
 exports.cb_sex_avg = function (pool, data, next_callback) {
     sql_query = "SELECT sex, AVG(score) avgscore " +
         "FROM account ac, record rc " +
         "WHERE ac.id = rc.id AND STATUS > 0 " +
         "GROUP BY sex";
     pool.query(sql_query, function (err, rows, ret) {
-        data['sex_avg'] = get_sex_avg_list(rows)
+        sex_avg = [];
+        for (var i = 0; i < rows.length; ++i) {
+            sex_avg.push({ sex: rows[i].sex, avg: rows[i].avgscore });
+        }
+        data['sex_avg'] = sex_avg;
         next_callback(null, pool, data);
     });
 };
@@ -34,7 +22,11 @@ exports.cb_top_avg = function (pool, data, next_callback) {
         "ORDER BY avgscore  DESC " +
         "LIMIT 5";
     pool.query(sql_query, function (err, rows, ret) {
-        data['top_avg'] = get_top_avg_list(rows)
+        top_avg = [];
+        for (var i = 0; i < rows.length; ++i) {
+            top_avg.push({ name: rows[i].name, avg: rows[i].avgscore });
+        }
+        data['top_avg'] = top_avg;
         next_callback(null, pool, data);
     });
 };
