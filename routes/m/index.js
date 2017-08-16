@@ -3,6 +3,7 @@ var router = express.Router();
 
 var pool = require('../../mysql/_Mysql').init();
 var async = require('async');
+var database = require('../database.js');
 
 /* DB SP 사용 예
  pool.query('CALL CreateAccount(?,?,?,?)',['nnnyyy2', '왕예식', '1234', 0], function(err, rows, fields){
@@ -11,36 +12,23 @@ var async = require('async');
  })
 * */
 
+
 /* GET home page for mobile. */
 router.get('/', function(req, res, next) {
-    var sex_avg = [];
-    var top_avg = [];
     try {
         async.waterfall([
             function(cb) {
-                pool.query("select sex, avg(score) avgscore from account ac, record rc where ac.id = rc.id and status > 0 group by sex", function(err, rows, ret ){
-                    for( var i = 0 ; i < rows.length ; ++i) {
-                        sex_avg.push({sex:rows[i].sex, avg:rows[i].avgscore });
-                    }
-                    //console.log(sex_avg);
-                    cb(null, 'next');
-                });
+                cb(null, pool, {});
             },
-            function(arg, cb) {
-                pool.query("select name, avg(score) avgscore from account ac, record rc where ac.id = rc.id and status > 0 group by ac.id order by avgscore desc limit 5", function(err, rows, ret ){
-                    for( var i = 0 ; i < rows.length ; ++i) {
-                        top_avg.push({name:rows[i].name, avg:rows[i].avgscore });
-                    }
-                    //console.log(top_avg);
-                    cb(null, 'next');
-                });
-            },
-            function(arg, cb) {
 
-                cb(null, 'done');
+            database.cb_sex_avg,
+            database.cb_top_avg,
+
+            function(pool, data, cb) {
+                cb(null, data);
             }
-        ], function(err,ret) {
-            res.render('m/index', { data: {sex_avg:sex_avg, top_avg:top_avg}, session: req.session.user_id});
+        ], function(err, ret) {
+            res.render('m/index', {data: ret, session: req.session.user_id });
         });
     }
     catch(err) {
