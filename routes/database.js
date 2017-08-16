@@ -1,4 +1,19 @@
 
+exports.cb_account_total_count = function (pool, data, next_callback) {
+    sql_query = "SELECT COUNT(*) AS account_total_count FROM account WHERE STATUS = 1";
+    pool.query(sql_query, function (err, rows, ret) {
+        if (err) {
+            // Error 처리
+        }
+
+        if (rows.length) {
+            data['account_total_count'] = rows[0].account_total_count
+        }
+
+        next_callback(null, pool, data);
+    });
+};
+
 exports.cb_sex_avg = function (pool, data, next_callback) {
     sql_query = "SELECT sex, AVG(score) avgscore " +
         "FROM account ac, record rc " +

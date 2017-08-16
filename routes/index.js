@@ -13,6 +13,7 @@ router.get('/', function(req, res, next) {
                 cb(null, pool, {});
             },
 
+            database.cb_account_total_count,
             database.cb_sex_avg,
             database.cb_total_avg,
             database.cb_top_avg,
