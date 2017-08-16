@@ -51,6 +51,7 @@
                     <th>순위</th>
                     <th>이름</th>
                     <th>평균 점수</th>
+                    <th>게임 수</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,6 +61,7 @@
                 <th><%= rank %></th>
                 <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= data[i].name %></td>
                 <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= data[i].avgscore %></td>
+                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= data[i].scorecnt %></td>
             </tr>
             <% rank++;
             } %>

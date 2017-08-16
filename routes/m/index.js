@@ -138,14 +138,14 @@ router.get('/ranking', function(req, res, next) {
         //
         async.waterfall([
             function(cb) {
-                pool.query("select name, avg(score) avgscore from account ac, record rc where ac.id = rc.id and status > 0 group by ac.id order by avgscore desc", function(err, rows, ret ){
+                pool.query("select name, avg(score) avgscore, count(rc.score) scorecnt from account ac, record rc where ac.id = rc.id and status > 0 group by ac.id order by avgscore desc", function(err, rows, ret ){
 
                     if(err) {
                         // Error 처리
                     }
 
                     for( var i = 0 ; i < rows.length ; ++i) {
-                        data.push({name:rows[i].name, avgscore:rows[i].avgscore });
+                        data.push({name:rows[i].name, avgscore:rows[i].avgscore, scorecnt: rows[i].scorecnt });
                     }
                     cb(null,'next');
                 });
