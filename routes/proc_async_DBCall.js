@@ -30,16 +30,35 @@ router.post('/loadscore', function(req, res, next) {
     var list = [];
     //console.log(id + ','+reg_date + ',' + score);
     try {
-        pool.query("select DATE_FORMAT(regdate,'%Y-%m-%d') as regdate, id, score, place from record_individual where id = '" + id + "' order by regdate desc",function(err,rows,fields){
+        pool.query("select DATE_FORMAT(regdate,'%Y-%m-%d') as regdate, id, score, place, sn from record_individual where id = '" + id + "' order by regdate desc",function(err,rows,fields){
             if(err) {
                 res.send({ret: -1});
                 return;
             }
 
             for( var i = 0 ; i < rows.length ; ++i) {
-                list.push({name:rows[i].id, regdate:rows[i].regdate, score:rows[i].score, place:rows[i].place });
+                list.push({name:rows[i].id, regdate:rows[i].regdate, score:rows[i].score, place:rows[i].place, sn: rows[i].sn });
             }
             res.send({ret: 0, id:id, list:list });
+        });
+    }
+    catch(err) {
+        res.send({ret: -1});
+    }
+});
+
+router.post('/deletescore', function(req, res, next) {
+    var sn = req.body.score_sn;
+    console.log('!!!!!');
+    //console.log(id + ','+reg_date + ',' + score);
+    try {
+        pool.query("delete from record_individual where sn = '" + sn + "'",function(err,rows,fields){
+            if(err) {
+                res.send({ret: -1});
+                return;
+            }
+
+            res.send({ret: 0 });
         });
     }
     catch(err) {

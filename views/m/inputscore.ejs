@@ -8,6 +8,59 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css"/>
 </head>
 <script>
+    function loadScoreList() {
+        $.post("/proc_async_DBCall/loadscore", {user_id:'<%- session %>'}, function(data) {
+            if(data.ret == -1) {
+                $('#alert_message').html('데이터 로딩에 실패 했습니다.');
+                setTimeout(function(){
+                    $('#alert_message').html('');
+                }, 2000);
+            }
+            else {
+                refreshMyScoreList($('#record_list'), data);
+            }
+        })
+    }
+
+    function refreshMyScoreList(elemname, data){
+        elemname.html('');
+        // 리스트 갱신
+        var html = '<table class="type08">';
+        html += '<thead>';
+        html += '<tr style="height: 30px;">';
+        html += '<th>날짜</th>';
+        html += '<th>점수</th>';
+        html += '<th>삭제 여부</th>';
+        html += '</tr>';
+        html += '</thead><tbody>';
+        for(var i = 0 ; i < data.list.length ; ++i) {
+            html += '<tr>';
+            html += '<td>' + data.list[i].regdate + '</td>';
+            html += '<td>' + data.list[i].score + '</td>';
+            html += '<td><a class="delete_score" sn="'+ data.list[i].sn +'">삭제하기</a></td>';
+            html += '</tr>';
+        }
+        html += '</tbody></table>';
+        elemname.html(html);
+        $('.delete_score').unbind('click');
+        $('.delete_score').click(function(){
+            if( confirm('삭제 하시겠습니까?') ) {
+                var sn = $(this).attr('sn');
+                $.post("/proc_async_DBCall/deletescore", {score_sn:sn }, function(data) {
+                    if(data.ret == -1) {
+                        $('#alert_message').html('데이터 삭제에 실패 했습니다.');
+                        setTimeout(function(){
+                            $('#alert_message').html('');
+                        }, 2000);
+                    }
+                    else {
+                        loadScoreList();
+                    }
+                })
+            }
+        });
+    }
+
     $(document).ready(function(){
         var score = 100;
         $('#cur_score').text(score);
@@ -44,35 +97,8 @@
                         $('#alert_message').html('');
                     }, 2000);
 
-                    $.post("/proc_async_DBCall/loadscore", {user_id:'<%- session %>'}, function(data) {
-                        if(data.ret == -1) {
-                            $('#alert_message').html('데이터 로딩에 실패 했습니다.');
-                            setTimeout(function(){
-                                $('#alert_message').html('');
-                            }, 2000);
-                        }
-                        else {
-                            $('#record_list').html('');
-                            // 리스트 갱신
-                            var html = '<table class="type08">';
-                            html += '<thead>';
-                            html += '<tr style="height: 30px;">';
-                            html += '<th>날짜</th>';
-                            html += '<th>점수</th>';
-                            html += '</tr>';
-                            html += '</thead><tbody>';
-                            for(var i = 0 ; i < data.list.length ; ++i) {
-                                html += '<tr>';
-                                html += '<td>' + data.list[i].regdate + '</td>';
-                                html += '<td>' + data.list[i].score + '</td>';
-                                html += '</tr>';
-                            }
-                            html += '</tbody></table>';
-                            $('#record_list').html(html);
-                        }
-                    })
+                    loadScoreList();
                 }
-
             });
         })
 
@@ -90,33 +116,7 @@
             yearSuffix: '년'
         });
 
-        $.post("/proc_async_DBCall/loadscore", {user_id:'<%- session %>'}, function(data) {
-            if(data.ret == -1) {
-                $('#alert_message').html('데이터 로딩에 실패 했습니다.');
-                setTimeout(function(){
-                    $('#alert_message').html('');
-                }, 2000);
-            }
-            else {
-                $('#record_list').html('');
-                // 리스트 갱신
-                var html = '<table class="type08">';
-                html += '<thead>';
-                html += '<tr style="height: 30px;">';
-                html += '<th>날짜</th>';
-                html += '<th>점수</th>';
-                html += '</tr>';
-                html += '</thead><tbody>';
-                for(var i = 0 ; i < data.list.length ; ++i) {
-                    html += '<tr>';
-                    html += '<td>' + data.list[i].regdate + '</td>';
-                    html += '<td>' + data.list[i].score + '</td>';
-                    html += '</tr>';
-                }
-                html += '</tbody></table>';
-                $('#record_list').html(html);
-            }
-        })
+        loadScoreList();
 
         $('#datepicker').datepicker('setDate', queryDate);
     });
