@@ -154,3 +154,7 @@ table.type08 td {
 table.type08 .even {
   background: #f7f7f7;
 }
+
+table.type08 tbody .vcenter {
+  vertical-align: middle;
+}

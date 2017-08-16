@@ -30,7 +30,7 @@ router.post('/loadscore', function(req, res, next) {
     var list = [];
     //console.log(id + ','+reg_date + ',' + score);
     try {
-        pool.query("select DATE_FORMAT(regdate,'%Y-%m-%d') as regdate, id, score, place, sn from record_individual where id = '" + id + "' order by regdate desc",function(err,rows,fields){
+        pool.query("select DATE_FORMAT(regdate,'%Y-%m-%d') as regdate, id, score, place, sn from record_individual where id = '" + id + "' order by regdate desc, sn",function(err,rows,fields){
             if(err) {
                 res.send({ret: -1});
                 return;

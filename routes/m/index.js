@@ -60,7 +60,7 @@ router.get('/myinfo', function(req, res, next) {
                     });
                 },
                 function(arg, cb) {
-                    pool.query("select ac.name, DATE_FORMAT(rc.regdate,'%Y-%m-%d') as regdate, rc.score, rc.place from account ac, record_individual rc where ac.id = rc.id and ac.id = '"+ req.session.user_id +"' order by rc.regdate desc", function(err, rows, ret ){
+                    pool.query("select ac.name, DATE_FORMAT(rc.regdate,'%Y-%m-%d') as regdate, rc.score, rc.place from account ac, record_individual rc where ac.id = rc.id and ac.id = '"+ req.session.user_id +"' order by rc.regdate desc, sn", function(err, rows, ret ){
 
                         if(err) {
                             // Error 처리
