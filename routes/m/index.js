@@ -164,7 +164,7 @@ router.get('/ranking', function(req, res, next) {
             },
             function(arg, cb) {
 
-                pool.query("select name, count(*) as cnt from (select ac.name as name, date_format(regdate, '%Y-%m-%d') as regdate from account ac, record rc where ac.id = rc.id group by ac.name, regdate) as temp group by name order by count(*) desc", function(err, rows, ret ){
+                pool.query("select name, count(*) as cnt from (select ac.name as name, date_format(regdate, '%Y-%m-%d') as regdate from account ac, record rc where ac.id = rc.id group by ac.name, date_format(regdate, '%Y-%m-%d')) as temp group by name order by count(*) desc", function(err, rows, ret ){
 
                     if(err) {
                         // Error 처리
