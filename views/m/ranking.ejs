@@ -56,12 +56,12 @@
             </thead>
             <tbody>
             <% var rank = 1;
-            for(var i = 0 ; i < data.length ; ++i) { %>
+            for(var i = 0 ; i < rank_average.length ; ++i) { %>
             <tr>
                 <th><%= rank %></th>
-                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= data[i].name %></td>
-                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= data[i].avgscore %></td>
-                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= data[i].scorecnt %></td>
+                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_average[i].name %></td>
+                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_average[i].avgscore %></td>
+                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_average[i].scorecnt %></td>
             </tr>
             <% rank++;
             } %>
@@ -79,11 +79,11 @@
             </thead>
             <tbody>
             <% var rank = 1;
-            for(var i = 0 ; i < data_max.length ; ++i) { %>
+            for(var i = 0 ; i < rank_maximum.length ; ++i) { %>
             <tr>
                 <th><%= rank %></th>
-                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= data_max[i].name %></td>
-                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= data_max[i].score %></td>
+                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_maximum[i].name %></td>
+                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_maximum[i].score %></td>
             </tr>
             <%  rank++;
             } %>
@@ -101,8 +101,8 @@
             </thead>
             <tbody>
                 <% var rank = 0; prev_val = 0; stack = 0;
-                for(var i = 0 ; i < data_attend.length ; ++i) {
-                    if( prev_val == data_attend[i].cnt ) {
+                for(var i = 0 ; i < rank_attendance.length ; ++i) {
+                    if( prev_val == rank_attendance[i].cnt ) {
                         stack++;
                     }
                     else {
@@ -113,11 +113,11 @@
                 %>
                 <tr>
                     <th><%= rank %></th>
-                    <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= data_attend[i].name %></td>
-                    <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= data_attend[i].cnt %></td>
+                    <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_attendance[i].name %></td>
+                    <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_attendance[i].cnt %></td>
                 </tr>
                 <%
-                    prev_val = data_attend[i].cnt;
+                    prev_val = rank_attendance[i].cnt;
                 } %>
             </tbody>
         </table>

@@ -140,3 +140,76 @@ exports.cb_individual_average = function (req, pool, data, next_callback) {
         next_callback(null, req, pool, data);
     });
 };
+
+exports.cb_ranking_average = function (pool, data, next_callback) {
+    sql_query = "SELECT name, AVG(score) avgscore, COUNT(rc.score) scorecnt " +
+        "FROM account ac, record rc " +
+        "WHERE ac.id = rc.id AND STATUS > 0 " +
+        "GROUP BY ac.id " +
+        "ORDER BY avgscore DESC ";
+    pool.query(sql_query, function (err, rows, ret) {
+        if (err) {
+            // Error 처리
+        }
+
+        rank_average = []
+        for (var i = 0; i < rows.length; ++i) {
+            rank_average.push({
+                name: rows[i].name,
+                avgscore: rows[i].avgscore,
+                scorecnt: rows[i].scorecnt
+            });
+        }
+
+        data['rank_average'] = rank_average;
+        next_callback(null, pool, data);
+    });
+};
+
+exports.cb_ranking_maximum = function (pool, data, next_callback) {
+    sql_query = "SELECT name, MAX(score) AS score " +
+        "FROM account ac, record rc " +
+        "WHERE ac.id=rc.id " +
+        "GROUP BY name " +
+        "ORDER BY MAX(score) DESC "
+    pool.query(sql_query, function (err, rows, ret) {
+        if (err) {
+            // Error 처리
+        }
+
+        rank_maximum = []
+        for (var i = 0; i < rows.length; ++i) {
+            rank_maximum.push({
+                name: rows[i].name,
+                score: rows[i].score
+            });
+        }
+
+        data['rank_maximum'] = rank_maximum;
+        next_callback(null, pool, data);
+    });
+};
+
+exports.cb_ranking_attendance = function (pool, data, next_callback) {
+    sql_query = "SELECT name, COUNT(*) AS cnt " +
+        "   FROM ( " +
+        "   SELECT ac.name AS name, DATE_FORMAT(regdate, '%Y-%m-%d') AS regdate " +
+        "   FROM account ac, record rc " +
+        "   WHERE ac.id = rc.id " +
+        "   GROUP BY ac.name, DATE_FORMAT(regdate, '%Y-%m-%d')) AS temp " +
+        "GROUP BY name " +
+        "ORDER BY COUNT(*) DESC";
+    pool.query(sql_query, function (err, rows, ret) {
+        if (err) {
+            // Error 처리
+        }
+
+        rank_attendance = []
+        for (var i = 0; i < rows.length; ++i) {
+            rank_attendance.push({ name: rows[i].name, cnt: rows[i].cnt });
+        }
+
+        data['rank_attendance'] = rank_attendance
+        next_callback(null, pool, data);
+    });
+};

@@ -81,61 +81,32 @@ router.get('/myinfo', function(req, res, next) {
 });
 
 router.get('/ranking', function(req, res, next) {
-    var data = [];
-    var data_max = [];
-    var data_attend = [];
-    var avg = 0;
+    empty_dict = {
+        rank_average: [],
+        rank_maximum: [],
+        rank_attendance: [],
+        session: req.session.user_id
+    };
 
     try {
-        //
         async.waterfall([
             function(cb) {
-                pool.query("select name, avg(score) avgscore, count(rc.score) scorecnt from account ac, record rc where ac.id = rc.id and status > 0 group by ac.id order by avgscore desc", function(err, rows, ret ){
-
-                    if(err) {
-                        // Error 처리
-                    }
-
-                    for( var i = 0 ; i < rows.length ; ++i) {
-                        data.push({name:rows[i].name, avgscore:rows[i].avgscore, scorecnt: rows[i].scorecnt });
-                    }
-                    cb(null,'next');
-                });
+                cb(null, pool, empty_dict);
             },
-            function(arg, cb) {
-                pool.query("select name, max(score) as score from account ac, record rc where ac.id=rc.id group by name order by max(score) desc", function(err, rows, ret ){
 
-                    if(err) {
-                        // Error 처리
-                    }
+            database.cb_ranking_average,
+            database.cb_ranking_maximum,
+            database.cb_ranking_attendance,
 
-                    for( var i = 0 ; i < rows.length ; ++i) {
-                        data_max.push({name:rows[i].name, score:rows[i].score });
-                    }
-                    cb(null,'next');
-                });
-            },
-            function(arg, cb) {
-
-                pool.query("select name, count(*) as cnt from (select ac.name as name, date_format(regdate, '%Y-%m-%d') as regdate from account ac, record rc where ac.id = rc.id group by ac.name, date_format(regdate, '%Y-%m-%d')) as temp group by name order by count(*) desc", function(err, rows, ret ){
-
-                    if(err) {
-                        // Error 처리
-                    }
-
-                    for(var i = 0 ; i < rows.length ; ++i) {
-                        data_attend.push({name: rows[i].name, cnt: rows[i].cnt});
-                    }
-
-                    cb(null, 'done');
-                });
+            function (pool, data, cb) {
+                cb(null, data);
             }
-        ], function(err,ret) {
-            res.render('m/ranking', { data: data, data_max:data_max, data_attend:data_attend, session: req.session.user_id});
+        ], function(err, ret) {
+            res.render('m/ranking', ret);
         });
     }
     catch(err) {
-        res.render('m/ranking', { data:[],data_max:[], data_attend:[], session: req.session.user_id });
+        res.render('m/ranking', empty_dict);
     }
 });
 
