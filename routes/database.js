@@ -1,41 +1,4 @@
 
-query_sex_avg = "select sex, avg(score) avgscore " +
-    "from account ac, record rc " +
-    "where ac.id = rc.id and status > 0 " +
-    "group by sex";
-
-query_top_avg = "select name, avg(score) avgscore " +
-                "from account ac, record rc " +
-                "where ac.id = rc.id and status > 0 group by ac.id " +
-                "order by avgscore " +
-                "desc limit 5";
-
-function get_query_club_record(user_id) {
-    return " select ac.name, DATE_FORMAT(rc.regdate,'%Y-%m-%d') as regdate, rc.score, rc.place " +
-        " from account ac, record rc " +
-        " where ac.id = rc.id and ac.id = '" + user_id + "' " +
-        " order by rc.regdate desc";
-}
-
-function get_query_individual_record(user_id) {
-    return "select ac.name, DATE_FORMAT(rc.regdate,'%Y-%m-%d') as regdate, rc.score, rc.place " +
-        " from account ac, record_individual rc " +
-        " where ac.id = rc.id and ac.id = '" + user_id + "' " +
-        " order by rc.regdate desc";
-}
-
-function get_query_club_average(user_id) {
-    return "select avg(score) avg " +
-        "from record " +
-        "where id = '" + user_id + "'";
-}
-
-function get_query_individual_average(user_id) {
-    return "select avg(score) avg " +
-        "from record_individual " +
-        "where id = '" + user_id + "'";
-}
-
 function get_sex_avg_list(rows) {
     sex_avg = [];
     for (var i = 0; i < rows.length; ++i) {
@@ -53,21 +16,34 @@ function get_top_avg_list(rows) {
 }
 
 exports.cb_sex_avg = function (pool, data, next_callback) {
-    pool.query(query_sex_avg, function (err, rows, ret) {
+    sql_query = "SELECT sex, AVG(score) avgscore " +
+        "FROM account ac, record rc " +
+        "WHERE ac.id = rc.id AND STATUS > 0 " +
+        "GROUP BY sex";
+    pool.query(sql_query, function (err, rows, ret) {
         data['sex_avg'] = get_sex_avg_list(rows)
         next_callback(null, pool, data);
     });
 };
 
 exports.cb_top_avg = function (pool, data, next_callback) {
-    pool.query(query_top_avg, function (err, rows, ret) {
+    sql_query = "SELECT name, AVG(score) avgscore " +
+        "FROM account ac, record rc " +
+        "WHERE ac.id = rc.id AND STATUS > 0 " +
+        "GROUP BY ac.id " +
+        "ORDER BY avgscore  DESC " +
+        "LIMIT 5";
+    pool.query(sql_query, function (err, rows, ret) {
         data['top_avg'] = get_top_avg_list(rows)
         next_callback(null, pool, data);
     });
 };
 
 exports.cb_club_records = function (req, pool, data, next_callback) {
-    sql_query = get_query_club_record(req.session.user_id);
+    sql_query = "SELECT ac.name, DATE_FORMAT(rc.regdate,'%Y-%m-%d') AS regdate, rc.score, rc.place " +
+        "FROM account ac, record rc " +
+        "WHERE ac.id = rc.id AND ac.id = '" + req.session.user_id + "' " +
+        "ORDER BY rc.regdate DESC";
     pool.query(sql_query, function (err, rows, ret) {
         if (err) {
             // Error 처리
@@ -89,7 +65,10 @@ exports.cb_club_records = function (req, pool, data, next_callback) {
 };
 
 exports.cb_individual_records = function (req, pool, data, next_callback) {
-    sql_query = get_query_individual_record(req.session.user_id);
+    sql_query = "SELECT ac.name, DATE_FORMAT(rc.regdate,'%Y-%m-%d') AS regdate, rc.score, rc.place " +
+        "FROM account ac, record_individual rc " +
+        "WHERE ac.id = rc.id AND ac.id = '" + req.session.user_id + "' " +
+        "ORDER BY rc.regdate DESC ";
     pool.query(sql_query, function (err, rows, ret) {
         if (err) {
             // Error 처리
@@ -111,7 +90,9 @@ exports.cb_individual_records = function (req, pool, data, next_callback) {
 };
 
 exports.cb_club_average = function (req, pool, data, next_callback) {
-    sql_query = get_query_club_average(req.session.user_id);
+    sql_query = "SELECT AVG(score) AVG " +
+        "FROM record " +
+        "WHERE id = '" + req.session.user_id + "'";
     pool.query(sql_query, function (err, rows, ret) {
         if (err) {
             // Error 처리
@@ -127,7 +108,9 @@ exports.cb_club_average = function (req, pool, data, next_callback) {
 
 
 exports.cb_individual_average = function (req, pool, data, next_callback) {
-    sql_query = get_query_individual_average(req.session.user_id);
+    sql_query = "SELECT AVG(score) AVG " +
+        "FROM record_individual " +
+        "WHERE id = '" + req.session.user_id + "'";
     pool.query(sql_query, function (err, rows, ret) {
         if (err) {
             // Error 처리
@@ -171,7 +154,7 @@ exports.cb_ranking_maximum = function (pool, data, next_callback) {
         "FROM account ac, record rc " +
         "WHERE ac.id=rc.id " +
         "GROUP BY name " +
-        "ORDER BY MAX(score) DESC "
+        "ORDER BY MAX(score) DESC ";
     pool.query(sql_query, function (err, rows, ret) {
         if (err) {
             // Error 처리
