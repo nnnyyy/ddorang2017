@@ -24,6 +24,7 @@
 
     function refreshMyScoreList(elemname, data){
         elemname.html('');
+        if(data.list.length <= 0) return;
         // 리스트 갱신
         var html = '<table class="type08">';
         html += '<thead>';
@@ -62,7 +63,7 @@
     }
 
     $(document).ready(function(){
-        var score = 100;
+        var score = 0;
         $('#cur_score').text(score);
 
         $('#session_ok').hide();
@@ -75,10 +76,16 @@
         $('#no_session').hide();
         <% } %>
 
-        $('.btnstyle1').click(function(){
-            score += parseInt($(this).attr('val'));
-            if(score < 0 ) score = 0;
-            if(score > 300 ) score = 300;
+        $('.btn_number').click(function(){
+            var i = parseInt($(this).attr('val'));
+            if( i == -1 ) {
+                score = 0;
+                $('#cur_score').text(score);
+                return;
+            }
+            if((score * 10 + i) > 300) return;
+            score *= 10;
+            score += i;
             $('#cur_score').text(score);
         })
 
@@ -133,17 +140,35 @@
         <div><p>이곳에는 개인 기록만 저장할 수 있습니다</p></div>
         <div id="alert_message"></div>
         <div id="datepicker" style="margin: auto; width:80%;"></div>
-        <div id ="cur_score" class="big_number">0</div>
-        <div style="margin:auto;">
-            <btn_num class="btnstyle1" val="-1">-1</btn_num>
-            <btn_num class="btnstyle1" val="-10">-10</btn_num>
-            <btn_num class="btnstyle1" val="-100">-100</btn_num>
-            <btn_num class="btnstyle1" val="+1">+1</btn_num>
-            <btn_num class="btnstyle1" val="+10">+10</btn_num>
-            <btn_num class="btnstyle1" val="+100">+100</btn_num>
-        </div>
-        <br><div id="input_score" class="btn_submit">입력</div>
-        <br><br>
+        <table class="type08">
+            <thead>
+                <tr>
+                    <th colspan="4">입력할 점수 : <inputscore id ="cur_score">0</inputscore></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="btn_number" val="1">1</td>
+                    <td class="btn_number" val="4">4</td>
+                    <td class="btn_number" val="7">7</td>
+                    <td rowspan="4" class="vcenter" id="input_score">입력</td>
+                </tr>
+                <tr>
+                    <td class="btn_number" val="2">2</td>
+                    <td class="btn_number" val="5">5</td>
+                    <td class="btn_number" val="8">8</td>
+                </tr>
+                <tr>
+                    <td class="btn_number" val="3">3</td>
+                    <td class="btn_number" val="6">6</td>
+                    <td class="btn_number" val="9">9</td>
+                </tr>
+                <tr>
+                    <td class="btn_number" colspan="2" val="0">0</td>
+                    <td class="btn_number" val="-1">Reset</td>
+                </tr>
+            </tbody>
+        </table>
         <div class="main_sub_title">기록 확인(최신순)</div>
         <div id="record_list">
         </div>

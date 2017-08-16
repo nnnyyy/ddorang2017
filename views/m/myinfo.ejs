@@ -64,7 +64,7 @@
         <% } %>
 
         var data_individual = [];
-        <% for(var i = individual_record.length-1 ; i >= 0  ; --i) { %>
+        <% for(var i = 0 ; i < individual_record.length ; ++i) { %>
         if(data_individual.length < 10) {
             data_individual.push(<%- individual_record[i].score %>);
         }
@@ -144,7 +144,7 @@
             </tr>
             </thead>
             <tbody>
-            <% for(var i = 0 ; i < individual_record.length ; ++i) { %>
+            <% for(var i = individual_record.length - 1 ; i >= 0  ; --i) { %>
             <tr>
                 <td><%= individual_record[i].regdate %></td>
                 <td><%= individual_record[i].score %></td>
