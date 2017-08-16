@@ -102,10 +102,10 @@ html, body {
 }
 
 .header-card {
-  max-width: 122px;
+  max-width: 100%;
   min-height: 100px;
 }
 
-.table-average {
-  min-width: 261.312px;
+.rank-data-table {
+  width: 100%;
 }
