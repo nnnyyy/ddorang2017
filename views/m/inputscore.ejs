@@ -54,18 +54,20 @@
                         else {
                             $('#record_list').html('');
                             // 리스트 갱신
-                            var html = '<table style="width: 200px; margin:auto;">';
+                            var html = '<table class="type08">';
+                            html += '<thead>';
                             html += '<tr style="height: 30px;">';
-                            html += '<td>날짜</td>';
-                            html += '<td>점수</td>';
+                            html += '<th>날짜</th>';
+                            html += '<th>점수</th>';
                             html += '</tr>';
+                            html += '</thead><tbody>';
                             for(var i = 0 ; i < data.list.length ; ++i) {
                                 html += '<tr>';
                                 html += '<td>' + data.list[i].regdate + '</td>';
                                 html += '<td>' + data.list[i].score + '</td>';
                                 html += '</tr>';
                             }
-                            html += '</table>';
+                            html += '</tbody></table>';
                             $('#record_list').html(html);
                         }
                     })
