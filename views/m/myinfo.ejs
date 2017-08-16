@@ -48,25 +48,25 @@
 
         $('#btn_league').click(function(){
             $('#content').html($('#league').html());
-            showgraph('.ct-chart', data);
+            showgraph('.ct-chart', club_record);
         })
 
         $('#btn_individual').click(function(){
             $('#content').html($('#individual').html());
-            showgraph('.ct-chart-individual', data_individual);
+            showgraph('.ct-chart-individual', individual_record);
         })
 
         var data = [];
-        <% for(var i = data.length-1 ; i >= 0  ; --i) { %>
+        <% for(var i = club_record.length-1 ; i >= 0  ; --i) { %>
             if(data.length < 10) {
-                data.push(<%- data[i].score %>);
+                data.push(<%- club_record[i].score %>);
             }
         <% } %>
 
         var data_individual = [];
-        <% for(var i = data_individual.length-1 ; i >= 0  ; --i) { %>
+        <% for(var i = individual_record.length-1 ; i >= 0  ; --i) { %>
         if(data_individual.length < 10) {
-            data_individual.push(<%- data_individual[i].score %>);
+            data_individual.push(<%- individual_record[i].score %>);
         }
         <% } %>
 
@@ -90,7 +90,7 @@
     </div>
     <div id="content"></div>
     <div id="league">
-        <% if(data.length == 0) {%>
+        <% if(club_record.length == 0) {%>
         <div>기록이 없습니다. 볼링장 ㄱㄱ싱?</div>
         <%}else {%>
         <table class="type08">
@@ -116,10 +116,10 @@
             </tr>
             </thead>
             <tbody>
-            <% for(var i = 0 ; i < data.length ; ++i) { %>
+            <% for(var i = 0 ; i < club_record.length ; ++i) { %>
             <tr>
-                <td><%= data[i].regdate %></td>
-                <td><%= data[i].score %></td>
+                <td><%= club_record[i].regdate %></td>
+                <td><%= club_record[i].score %></td>
             </tr>
             <% } %>
             </tbody>
@@ -129,7 +129,7 @@
 
     <br>
     <div id="individual">
-        <% if(data_individual.length == 0) {%>
+        <% if(individual_record.length == 0) {%>
         <div>기록이 없습니다. 볼링장 ㄱㄱ싱?</div>
         <%}else {%>
         <p style="color:#830000; font-weight: bold;">총 에버리지 : <%= avg_individual %>점</p>
@@ -144,10 +144,10 @@
             </tr>
             </thead>
             <tbody>
-            <% for(var i = 0 ; i < data_individual.length ; ++i) { %>
+            <% for(var i = 0 ; i < individual_record.length ; ++i) { %>
             <tr>
-                <td><%= data_individual[i].regdate %></td>
-                <td><%= data_individual[i].score %></td>
+                <td><%= individual_record[i].regdate %></td>
+                <td><%= individual_record[i].score %></td>
             </tr>
             <% } %>
             </tbody>
