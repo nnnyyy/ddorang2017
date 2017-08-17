@@ -141,7 +141,7 @@ exports.cb_individual_records = function (req, pool, data, next_callback) {
 };
 
 exports.cb_club_average = function (req, pool, data, next_callback) {
-    sql_query = "SELECT AVG(score) AVG " +
+    sql_query = "SELECT AVG(score) AS avg " +
         "FROM record " +
         "WHERE id = '" + req.session.user_id + "'";
     pool.query(sql_query, function (err, rows, ret) {
@@ -159,7 +159,7 @@ exports.cb_club_average = function (req, pool, data, next_callback) {
 
 
 exports.cb_individual_average = function (req, pool, data, next_callback) {
-    sql_query = "SELECT AVG(score) as avg " +
+    sql_query = "SELECT AVG(score) AS avg " +
         "FROM record_individual " +
         "WHERE id = '" + req.session.user_id + "'";
     pool.query(sql_query, function (err, rows, ret) {
@@ -176,7 +176,7 @@ exports.cb_individual_average = function (req, pool, data, next_callback) {
 };
 
 exports.cb_ranking_average = function (pool, data, next_callback) {
-    sql_query = "SELECT name, AVG(score) avgscore, COUNT(rc.score) scorecnt " +
+    sql_query = "SELECT name, AVG(score) AS avgscore, COUNT(rc.score) AS scorecnt " +
         "FROM account ac, record rc " +
         "WHERE ac.id = rc.id AND STATUS > 0 " +
         "GROUP BY ac.id " +
