@@ -84,7 +84,7 @@
         <p><a href="/m/login">로그인 하러 가기</a></p>
     </div>
     <%}else {%>
-    <div id="myinfo_menubar">
+    <div id="myinfo_menubar" class="sub_top_menubar">
         <a id="btn_league">동호회 기록</a> |
         <a id="btn_individual">개인 기록</a>
     </div>
@@ -144,7 +144,8 @@
             </tr>
             </thead>
             <tbody>
-            <% for(var i = individual_record.length - 1 ; i >= 0  ; --i) { %>
+            <% var retcnt = individual_record.length >= 10 ? 10 : individual_record.length;
+                for(var i = retcnt ; i >= 0  ; --i) { %>
             <tr>
                 <td><%= individual_record[i].regdate %></td>
                 <td><%= individual_record[i].score %></td>
