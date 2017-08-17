@@ -144,7 +144,7 @@
             </tr>
             </thead>
             <tbody>
-            <% var retcnt = individual_record.length >= 10 ? 10 : individual_record.length;
+            <% var retcnt = individual_record.length >= 10 ? 9 : individual_record.length - 1;
                 for(var i = retcnt ; i >= 0  ; --i) { %>
             <tr>
                 <td><%= individual_record[i].regdate %></td>
