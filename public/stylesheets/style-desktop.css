@@ -106,6 +106,19 @@ html, body {
   min-height: 100px;
 }
 
-.rank-data-table {
+.mdl-cell--2-col .rank-data-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.rank-data-table td, th {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+}
+
+.chart-card {
   width: 100%;
 }

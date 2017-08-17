@@ -90,6 +90,14 @@
             <% } %>
         </div>
         <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--4-col">
+                <div class="mdl-card mdl-shadow--2dp chart-card">
+                    <div id="avg_by_date">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-grid">
             <div class="mdl-cell mdl-cell--2-col">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp rank-data-table">
                     <thead>
@@ -138,4 +146,82 @@
 </body>
 
 <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(on_load_chart);
+
+    function on_load_chart() {
+        request_chart_data('avg_by_date');
+    }
+
+    function request_chart_data(req_name) {
+        $.ajax({
+            type: 'POST',
+            url: '',
+            data: {
+                'request': req_name
+            },
+            dataType: 'json',
+            success: function (response) {
+                if ('res_data' in response) {
+                    draw_chart(response['name'], response['res_data']);
+                } else {
+                    console.log('invalid response');
+                }
+            },
+            error: function (error) {
+                console.log('error: ' + e);
+            },
+        });
+    }
+
+    cache_res_name = ''
+    cache_chart_data = {}
+
+    function draw_chart(res_name, res_data) {
+        cache_res_name = res_name;
+        cache_chart_data[res_name] = res_data;
+
+        // 호출은 함수 하나로 res_name 으로 분류해서 나눠서 쓰자
+        if (res_name == 'avg_by_date') {
+            draw_chart_average_by_date(res_name, res_data);
+        }
+    }
+
+    function draw_chart_average_by_date(res_name, res_data) {
+        chart_data = [['일자', '평균', '게임 수']];
+        for (var i = 0; i < res_data.length; ++i) {
+            chart_data.push([
+                res_data[i].Date,
+                res_data[i].ScoreAvg,
+                res_data[i].UserCount
+            ]);
+        }
+
+        var data = google.visualization.arrayToDataTable(chart_data);
+        var options = {
+            title : '또랑 평균',
+            vAxis: { title: '' },
+            hAxis: { title: '' },
+            bar: { groupWidth: '40%' },
+            seriesType: 'bars',
+            series: {
+                0: { type: 'line', targetAxisIndex: 0 },
+                1: { type: 'bars', targetAxisIndex: 1 }
+            }
+        };
+
+        var chart = new google.visualization.ComboChart(
+            document.getElementById(res_name)
+        );
+        chart.draw(data, options);
+    }
+
+    // 사이즈 변경될 때마다 차트 다시 그려줌
+    $(window).resize(function(){
+        draw_chart(cache_res_name, cache_chart_data[cache_res_name]);
+    });
+
+</script>
 </html>

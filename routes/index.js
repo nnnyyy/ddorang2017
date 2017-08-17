@@ -34,6 +34,33 @@ router.get('/', function(req, res, next) {
     }
 });
 
+router.post('/', function (req, res) {
+    try {
+        req_name = req.body['request'];
+        if (req_name == 'avg_by_date') {
+            async.waterfall([
+                function(cb) {
+                    cb(null, pool, {});
+                },
+
+                database.cb_average_by_date,
+
+                function(pool, data, cb) {
+                    cb(null, data);
+                }
+            ], function(err, ret) {
+                res.send({
+                    name: req_name,
+                    res_data: ret['avg_by_date']
+                });
+            });
+        }
+    }
+    catch(err) {
+      res.send('POST request to the homepage');
+    }
+});
+
 module.exports = router;
 
 

@@ -14,6 +14,35 @@ exports.cb_account_total_count = function (pool, data, next_callback) {
     });
 };
 
+exports.cb_average_by_date = function (pool, data, next_callback) {
+    sql_query = "SELECT DATE_FORMAT(regdate,'%Y-%m-%d') AS RegDateStr" +
+        ", AVG(score) as avgscore, count(*) as counttotal " +
+        "FROM record " +
+        "GROUP BY DATE(regdate) " +
+        "ORDER BY DATE(regdate) ASC " +
+        "LIMIT 7";
+    pool.query(sql_query, function (err, rows, ret) {
+        if (err) {
+            // Error 처리
+        }
+
+        avg_by_date = [];
+        for (var i = 0; i < rows.length; ++i) {
+            avg_by_date.push({
+                Date: rows[i].RegDateStr,
+                ScoreAvg: rows[i].avgscore,
+                UserCount: rows[i].counttotal,
+            });
+        }
+
+        if (rows.length) {
+            data['avg_by_date'] = avg_by_date;
+        }
+
+        next_callback(null, pool, data);
+    });
+};
+
 exports.cb_sex_avg = function (pool, data, next_callback) {
     sql_query = "SELECT sex, AVG(score) avgscore " +
         "FROM account ac, record rc " +
