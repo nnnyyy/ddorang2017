@@ -48,12 +48,12 @@
 
         $('#btn_league').click(function(){
             $('#content').html($('#league').html());
-            showgraph('.ct-chart', club_record);
+            showgraph('.ct-chart', data);
         })
 
         $('#btn_individual').click(function(){
             $('#content').html($('#individual').html());
-            showgraph('.ct-chart-individual', individual_record);
+            showgraph('.ct-chart-individual', data_individual);
         })
 
         var data = [];
