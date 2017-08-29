@@ -162,3 +162,16 @@ table.type08 .even {
 table.type08 tbody .vcenter {
   vertical-align: middle;
 }
+
+new {
+  color: dodgerblue;
+}
+
+rankup {
+  color: red;
+  font-size: 16px;
+}
+
+rankdown {
+  color: #777777;
+}

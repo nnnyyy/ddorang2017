@@ -200,6 +200,32 @@ exports.cb_ranking_average = function (pool, data, next_callback) {
     });
 };
 
+exports.cb_prev_ranking = function(pool, data, next_callback) {
+    sql_query =   "select name, " +
+                    "(@rank := @rank + 1) AS rank " +
+                    "from " +
+                    "(select name, avg(score) as score from account a, record b where a.id = b.id and regdate < '2017-08-28' group by a.id order by avg(score) desc) as a, " +
+                    "(select @rank := 0 ) AS b order by a.score desc ";
+    // 저 쿼리에 박혀있는 날짜는 나중에 자동화로 변경해야함.
+    pool.query(sql_query, function (err, rows, ret) {
+        if (err) {
+            // Error 처리
+        }
+
+        prev_rank = []
+        for (var i = 0; i < rows.length; ++i) {
+            prev_rank.push({
+                name: rows[i].name,
+                rank: rows[i].rank,
+            });
+        }
+
+        data['prev_rank'] = prev_rank;
+        next_callback(null, pool, data);
+    });
+
+}
+
 exports.cb_ranking_maximum = function (pool, data, next_callback) {
     sql_query = "SELECT name, MAX(score) AS score " +
         "FROM account ac, record rc " +

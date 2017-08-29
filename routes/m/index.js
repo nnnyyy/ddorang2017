@@ -83,6 +83,7 @@ router.get('/myinfo', function(req, res, next) {
 router.get('/ranking', function(req, res, next) {
     empty_dict = {
         rank_average: [],
+        prev_rank: [],
         rank_maximum: [],
         rank_attendance: [],
         session: req.session.user_id
@@ -95,6 +96,7 @@ router.get('/ranking', function(req, res, next) {
             },
 
             database.cb_ranking_average,
+            database.cb_prev_ranking,
             database.cb_ranking_maximum,
             database.cb_ranking_attendance,
 

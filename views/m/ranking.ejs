@@ -52,6 +52,7 @@
                     <th>이름</th>
                     <th>평균 점수</th>
                     <th>게임 수</th>
+                    <th>순위 비교</th>
                 </tr>
             </thead>
             <tbody>
@@ -62,6 +63,30 @@
                 <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_average[i].name %></td>
                 <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_average[i].avgscore %></td>
                 <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_average[i].scorecnt %></td>
+                <td <% if(i % 2 == 1) {%> class="even" <%}%> >
+                    <%
+                    var nPrevRank = 0;
+                    var bFind = false;
+                    for(var j = 0 ; j < prev_rank.length ; ++j) {
+                        if(prev_rank[j].name == rank_average[i].name) {
+                            nPrevRank = prev_rank[j].rank;
+                            bFind = true;
+                        }
+                    }%>
+                    <% if(!bFind) {%>
+                        <new>NEW!</new>
+                    <%}%>
+                    <% if(bFind && rank - nPrevRank < 0 ) {%>
+                        <rankup>+<%= (nPrevRank - rank )%></rankup>
+                    <%}%>
+                    <% if(bFind && rank - nPrevRank > 0 ) {%>
+                    <rankdown>-<%= (rank - nPrevRank )%></rankdown>
+                    <%}%>
+
+                    <% if(bFind && (rank - nPrevRank) == 0 ) {%>
+                    <rankdown>-</rankdown>
+                    <%}%>
+                </td>
             </tr>
             <% rank++;
             } %>
