@@ -66,4 +66,26 @@ router.post('/deletescore', function(req, res, next) {
     }
 });
 
+router.post('/select_club_bowl_date', function(req, res, next) {
+    var date = req.body.s_date;
+    // date Çü½ÄÀº '2017-08-28'
+    var list = [];
+    try {
+        pool.query("select a.name, avg(score) score from record r, account a where r.id = a.id and DATE_FORMAT(regdate, '%Y-%m-%d') = '"+ date +"' group by a.name order by score desc, a.id",function(err,rows,fields){
+            if(err) {
+                res.send({ret: -1});
+                return;
+            }
+
+            for( var i = 0 ; i < rows.length ; ++i) {
+                list.push({name:rows[i].name, score:rows[i].score });
+            }
+            res.send({ret: 0, date:date, list:list });
+        });
+    }
+    catch(err) {
+        res.send({ret: -1});
+    }
+});
+
 module.exports = router;

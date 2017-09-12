@@ -273,3 +273,20 @@ exports.cb_ranking_attendance = function (pool, data, next_callback) {
         next_callback(null, pool, data);
     });
 };
+
+exports.cb_club_bowl_dates = function(pool, data, next_callback) {
+    sql_query = "select DATE_FORMAT(regdate, '%Y-%m-%d') regdate from record group by DATE_FORMAT(regdate, '%Y-%m-%d')";
+    pool.query(sql_query, function (err, rows, ret) {
+        if (err) {
+            // Error 처리
+        }
+
+        club_bowl_date = []
+        for (var i = 0; i < rows.length; ++i) {
+            club_bowl_date.push({name: rows[i].regdate});
+        }
+
+        data['club_bowl_date'] = club_bowl_date;
+        next_callback(null, pool, data);
+    });
+}

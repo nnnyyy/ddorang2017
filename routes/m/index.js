@@ -98,6 +98,7 @@ router.get('/ranking', function(req, res, next) {
             database.cb_ranking_average,
             database.cb_prev_ranking,
             database.cb_ranking_maximum,
+            database.cb_club_bowl_dates,
             database.cb_ranking_attendance,
 
             function (pool, data, cb) {
