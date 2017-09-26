@@ -57,3 +57,11 @@ typings/
 # dotenv environment variables file
 .env
 
+.idea/vcs.xml
+.idea/modules.xml
+.idea/libraries/ddorang2017_node_modules.xml
+.idea/ddorang2017.iml
+.idea/workspace.xml
+.idea/.name
+.idea/misc.xml
+.idea/jsLibraryMappings.xml
