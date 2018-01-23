@@ -204,7 +204,7 @@ exports.cb_prev_ranking = function(pool, data, next_callback) {
     sql_query =   "select name, " +
                     "(@rank := @rank + 1) AS rank " +
                     "from " +
-                    "(select name, avg(score) as score from account a, record b where a.id = b.id and regdate < '2017-10-23' group by a.id order by avg(score) desc) as a, " +
+                    "(select name, avg(score) as score from account a, record b where a.id = b.id and regdate < '2018-01-22' group by a.id order by avg(score) desc) as a, " +
                     "(select @rank := 0 ) AS b order by a.score desc ";
     // 저 쿼리에 박혀있는 날짜는 나중에 자동화로 변경해야함.
     pool.query(sql_query, function (err, rows, ret) {
