@@ -1,3 +1,6 @@
+<video autoplay loop>
+    <source src="/movie/back_movie.mp4" type="video/mp4">
+</video>
 <header>
     <img class="title_img" src="/images/title_img.png"/><br/>
     <div id="header_top_menubar">
@@ -6,10 +9,11 @@
         <a href="/m/ranking"><menu_item>랭킹</menu_item></a> |
         <a href="/m/input_score"><menu_item>점수입력</menu_item></a>
         <%if(session) {%>
-            | <a href="/m/logout"><menu_item>로그아웃</menu_item></a>
+        | <a href="/m/logout"><menu_item>로그아웃</menu_item></a>
         <%}else {%>
-            | <a href="/m/login"><menu_item>로그인</menu_item></a>
+        | <a href="/m/login"><menu_item>로그인</menu_item></a>
         <%}%>
     </div>
 </header>
+
 <!-- Use any element to open the sidenav -->

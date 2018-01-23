@@ -36,6 +36,7 @@ table,tr,td {
 }
 
 .sub_top_menubar {
+  color: white;
   margin-bottom: 10px;
 }
 
@@ -58,7 +59,6 @@ table,tr,td {
 header {
   font-size: 30px;
   margin: auto;
-  background-color: #aaaaaa;
   text-align: center;
   height: 152px;
 }
@@ -128,6 +128,7 @@ table.type08 {
   line-height: 1.5;
   border-left: 1px solid #ccc;
   margin: 0 auto;
+  background: #ececec;
 }
 
 table.type08 thead th {
@@ -174,4 +175,23 @@ rankup {
 
 rankdown {
   color: #777777;
+}
+
+video {
+  position : fixed;
+  top : 0;
+  left : 0;
+  min-width : 100%;
+  min-height : 100%;
+  width : auto;
+  height : auto;
+  z-index : -1;
+}
+
+h2 {
+  color: white;
+}
+
+#myinfo_tbl {
+  color: white;
 }
