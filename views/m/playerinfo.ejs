@@ -18,6 +18,9 @@
                 data
             ]
         }, {
+            seriesBarDistance: 10,
+            low: 50,
+            high: 300,
             fullWidth: true,
             chartPadding: {
                 right: 40
@@ -28,10 +31,12 @@
     $(document).ready(function(){
         var data = [];
         <% for(var i = record.length-1 ; i >= 0  ; --i) { %>
-            if(data.length < 10) {
+            if(data.length < 20) {
                 data.push(<%- record[i].score %>);
             }
         <% } %>
+
+        data.reverse();
 
         $('#league').hide();
         $('#individual').hide();
@@ -50,7 +55,7 @@
         <div style="color:white;">기록이 없습니다. 볼링장 ㄱㄱ싱?</div>
         <%}else {%>
         <div class="demo-1"><h2>최근 게임 그래프</h2></div>
-        <div class="ct-chart"></div>
+        <div class="ct-chart" style="height: 300px; background-color:#ffffff"></div>
         <div class="demo-1"><h2>최근 게임 기록표</h2></div>
         <table  class="type08">
             <thead>
