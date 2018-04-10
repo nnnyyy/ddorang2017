@@ -110,6 +110,7 @@ router.get('/player/:id', function(req, res, next) {
 router.get('/ranking', function(req, res, next) {
     empty_dict = {
         rank_average: [],
+        rank_average2017: [],
         rank_average2018: [],
         prev_rank: [],
         rank_maximum: [],
@@ -124,6 +125,7 @@ router.get('/ranking', function(req, res, next) {
             },
 
             database.cb_ranking_average,
+            database.cb_ranking_average2017,
             database.cb_ranking_average2018,
             database.cb_prev_ranking,
             database.cb_ranking_maximum,

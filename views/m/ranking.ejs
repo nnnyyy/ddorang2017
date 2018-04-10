@@ -48,12 +48,17 @@
 
     $(document).ready(function(){
         $('#av_rank').hide();
+        $('#av_rank2017').hide();
         $('#av_rank2018').hide();
         $('#max_rank').hide();
         $('#att_rank').hide();
         $('#date_rank').hide();
         $('#btn_avg').click(function(){
             $('#content').html($('#av_rank').html());
+        })
+
+        $('#btn_avg2017').click(function(){
+            $('#content').html($('#av_rank2017').html());
         })
 
         $('#btn_avg2018').click(function(){
@@ -91,6 +96,7 @@
 <div id="main">
     <div id="ranking_menubar" class="sub_top_menubar">
         <a id="btn_avg">평균 랭킹 전체</a> |
+        <a id="btn_avg2017">평균 랭킹 2017</a> |
         <a id="btn_avg2018">평균 랭킹 2018</a> |
         <a id="btn_max">최고점 랭킹</a> |
         <a id="btn_attend">출석 랭킹</a> |
@@ -166,6 +172,30 @@
                 <td <% if(i % 2 == 1) {%> class="even" <%}%> ><a href=<%='/m/player/' + rank_average2018[i].id %>><%= rank_average2018[i].name %></a></td>
                 <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_average2018[i].avgscore %></td>
                 <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_average2018[i].scorecnt %></td>
+            </tr>
+            <% rank++;
+            } %>
+            </tbody>
+        </table>
+    </div>
+    <div id="av_rank2017">
+        <table class="type08">
+            <thead>
+            <tr style="height: 30px;">
+                <th>순위</th>
+                <th>이름</th>
+                <th>평균 점수</th>
+                <th>게임 수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% var rank = 1;
+            for(var i = 0 ; i < rank_average2017.length ; ++i) { %>
+            <tr>
+                <th><%= rank %></th>
+                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><a href=<%='/m/player/' + rank_average2017[i].id %>><%= rank_average2017[i].name %></a></td>
+                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_average2017[i].avgscore %></td>
+                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_average2017[i].scorecnt %></td>
             </tr>
             <% rank++;
             } %>
