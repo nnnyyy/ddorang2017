@@ -1,10 +1,15 @@
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 body {
   margin: 0;
+  background-color: #000000;
 }
 
 a {
   text-decoration: none;
+}
+
+a:link, a:visited, a:active {
+  color: black;
 }
 
 table,tr,td {
@@ -194,4 +199,13 @@ h2 {
 
 #myinfo_tbl {
   color: white;
+}
+
+.ct-series-a .ct-line {
+  /* Set the colour of this series line */
+  stroke: white;
+  /* Control the thikness of your lines */
+  stroke-width: 10px;
+  /* Create a dashed line with a pattern */
+  stroke-dasharray: 10px 20px;
 }

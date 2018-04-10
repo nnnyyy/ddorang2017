@@ -115,6 +115,31 @@ exports.cb_club_records = function (req, pool, data, next_callback) {
     });
 };
 
+exports.cb_player_record = function (req, pool, data, next_callback) {
+    sql_query = "SELECT ac.name, DATE_FORMAT(rc.regdate,'%Y-%m-%d') AS regdate, rc.score, rc.place " +
+        "FROM account ac, record rc " +
+        "WHERE ac.id = rc.id AND ac.id = '" + req.params.id + "' " +
+        "ORDER BY rc.regdate DESC";
+    pool.query(sql_query, function (err, rows, ret) {
+        if (err) {
+            // Error 처리
+        }
+
+        records = []
+        for (var i = 0; i < rows.length; ++i) {
+            records.push({
+                name: rows[i].name,
+                regdate: rows[i].regdate,
+                score: rows[i].score,
+                place: rows[i].place
+            });
+        }
+
+        data['record'] = records
+        next_callback(null, req, pool, data);
+    });
+};
+
 exports.cb_individual_records = function (req, pool, data, next_callback) {
     sql_query = "SELECT ac.name, DATE_FORMAT(rc.regdate,'%Y-%m-%d') AS regdate, rc.score, rc.place " +
         "FROM account ac, record_individual rc " +
@@ -176,7 +201,7 @@ exports.cb_individual_average = function (req, pool, data, next_callback) {
 };
 
 exports.cb_ranking_average = function (pool, data, next_callback) {
-    sql_query = "SELECT name, AVG(score) AS avgscore, COUNT(rc.score) AS scorecnt " +
+    sql_query = "SELECT ac.id, name, AVG(score) AS avgscore, COUNT(rc.score) AS scorecnt " +
         "FROM account ac, record rc " +
         "WHERE ac.id = rc.id AND STATUS > 0 " +
         "GROUP BY ac.id " +
@@ -189,6 +214,7 @@ exports.cb_ranking_average = function (pool, data, next_callback) {
         rank_average = []
         for (var i = 0; i < rows.length; ++i) {
             rank_average.push({
+                id: rows[i].id,
                 name: rows[i].name,
                 avgscore: rows[i].avgscore,
                 scorecnt: rows[i].scorecnt
@@ -201,7 +227,7 @@ exports.cb_ranking_average = function (pool, data, next_callback) {
 };
 
 exports.cb_ranking_average2018 = function (pool, data, next_callback) {
-    sql_query = "SELECT name, AVG(score) AS avgscore, COUNT(rc.score) AS scorecnt " +
+    sql_query = "SELECT ac.id, name, AVG(score) AS avgscore, COUNT(rc.score) AS scorecnt " +
         "FROM account ac, record rc " +
         "WHERE ac.id = rc.id AND STATUS > 0 AND rc.regdate > '2018-01-01' " +
         "GROUP BY ac.id " +
@@ -214,6 +240,7 @@ exports.cb_ranking_average2018 = function (pool, data, next_callback) {
         rank_average = []
         for (var i = 0; i < rows.length; ++i) {
             rank_average.push({
+                id: rows[i].id,
                 name: rows[i].name,
                 avgscore: rows[i].avgscore,
                 scorecnt: rows[i].scorecnt

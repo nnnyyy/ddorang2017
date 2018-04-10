@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" charset="utf-8" />
+    <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/str_style.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+</head>
+
+<body>
+<script>
+
+    function showgraph(elemname, data){
+        new Chartist.Line(elemname, {
+            series: [
+                data
+            ]
+        }, {
+            fullWidth: true,
+            chartPadding: {
+                right: 40
+            }
+        });
+    }
+
+    $(document).ready(function(){
+        var data = [];
+        <% for(var i = record.length-1 ; i >= 0  ; --i) { %>
+            if(data.length < 10) {
+                data.push(<%- record[i].score %>);
+            }
+        <% } %>
+
+        $('#league').hide();
+        $('#individual').hide();
+        $('#content').html($('#league').html());
+        showgraph('.ct-chart', data);
+    });
+</script>
+<%-  include header.ejs %>
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="main">
+    <div id="myinfo_menubar" class="sub_top_menubar">
+    </div>
+    <div id="content"></div>
+    <div id="league">
+        <% if(record.length == 0) {%>
+        <div style="color:white;">기록이 없습니다. 볼링장 ㄱㄱ싱?</div>
+        <%}else {%>
+        <div class="demo-1"><h2>최근 게임 그래프</h2></div>
+        <div class="ct-chart"></div>
+        <div class="demo-1"><h2>최근 게임 기록표</h2></div>
+        <table  class="type08">
+            <thead>
+            <tr style="height: 30px;">
+                <th>날짜</th>
+                <th>점수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for(var i = 0 ; i < record.length ; ++i) { %>
+            <tr>
+                <td><%= record[i].regdate %></td>
+                <td><%= record[i].score %></td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+        <% } %>
+    </div>
+</div>
+<%-  include footer.ejs %>
+</body>
+
+</html>

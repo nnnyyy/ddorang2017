@@ -115,7 +115,7 @@
             for(var i = 0 ; i < rank_average.length ; ++i) { %>
             <tr>
                 <th><%= rank %></th>
-                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_average[i].name %></td>
+                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><a href=<%='/m/player/' + rank_average[i].id %>><%= rank_average[i].name %></a></td>
                 <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_average[i].avgscore %></td>
                 <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_average[i].scorecnt %></td>
                 <td <% if(i % 2 == 1) {%> class="even" <%}%> >
@@ -163,7 +163,7 @@
             for(var i = 0 ; i < rank_average2018.length ; ++i) { %>
             <tr>
                 <th><%= rank %></th>
-                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_average2018[i].name %></td>
+                <td <% if(i % 2 == 1) {%> class="even" <%}%> ><a href=<%='/m/player/' + rank_average2018[i].id %>><%= rank_average2018[i].name %></a></td>
                 <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_average2018[i].avgscore %></td>
                 <td <% if(i % 2 == 1) {%> class="even" <%}%> ><%= rank_average2018[i].scorecnt %></td>
             </tr>

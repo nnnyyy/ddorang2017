@@ -80,6 +80,33 @@ router.get('/myinfo', function(req, res, next) {
     }
 });
 
+router.get('/player/:id', function(req, res, next) {
+
+    console.log('player id : ' + req.params.id);
+
+    try {
+        async.waterfall([
+            function(cb) {
+                cb(null, req, pool, empty_myinfo_data());
+            },
+            database.cb_player_record,
+
+            function(req, pool, data, cb) {
+                cb(null, data);
+            }
+        ], function(err, ret) {
+            ret['session'] = req.session.user_id;
+            res.render('m/playerinfo', ret);
+        });
+    }
+    catch(err) {
+        empty_data = empty_myinfo_data();
+        empty_data['session'] = req.session.user_id;
+        res.render('m/playerinfo', empty_data);
+    }
+});
+
+
 router.get('/ranking', function(req, res, next) {
     empty_dict = {
         rank_average: [],
