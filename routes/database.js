@@ -200,6 +200,31 @@ exports.cb_ranking_average = function (pool, data, next_callback) {
     });
 };
 
+exports.cb_ranking_average2018 = function (pool, data, next_callback) {
+    sql_query = "SELECT name, AVG(score) AS avgscore, COUNT(rc.score) AS scorecnt " +
+        "FROM account ac, record rc " +
+        "WHERE ac.id = rc.id AND STATUS > 0 AND rc.regdate > '2018-01-01' " +
+        "GROUP BY ac.id " +
+        "ORDER BY avgscore DESC ";
+    pool.query(sql_query, function (err, rows, ret) {
+        if (err) {
+            // Error 처리
+        }
+
+        rank_average = []
+        for (var i = 0; i < rows.length; ++i) {
+            rank_average.push({
+                name: rows[i].name,
+                avgscore: rows[i].avgscore,
+                scorecnt: rows[i].scorecnt
+            });
+        }
+
+        data['rank_average2018'] = rank_average;
+        next_callback(null, pool, data);
+    });
+};
+
 exports.cb_prev_ranking = function(pool, data, next_callback) {
     sql_query =   "select name, " +
                     "(@rank := @rank + 1) AS rank " +
